@@ -95,10 +95,11 @@ def export_report_files(app: Flask, conn, client_id: int, audit_id: int, out_dir
     with app.test_request_context():
         html = render_template("reports/audit_report.html", rep=build_report(conn, client_id, audit_id))
     paths = [out_dir / f"{stem}.html"]
-    paths[0].write_text(html, encoding="utf-8")
+    # newline="": no \n -> \r\n translation on Windows (csv.writer already emits \r\n)
+    paths[0].write_text(html, encoding="utf-8", newline="")
     for kind in ("findings", "recommendations", "pages", "visibility"):
         p = out_dir / f"{stem}-{kind}.csv"
-        p.write_text("﻿" + export_csv(conn, client_id, audit_id, kind), encoding="utf-8")
+        p.write_text("﻿" + export_csv(conn, client_id, audit_id, kind), encoding="utf-8", newline="")
         paths.append(p)
     for p in paths:
         dbmod.insert(conn, "report_exports", {"client_id": client_id, "audit_id": audit_id,
