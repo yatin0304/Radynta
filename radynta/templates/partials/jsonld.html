@@ -1,0 +1,26 @@
+{# Structured data reflects only what is genuinely on the page: no ratings, reviews,
+   addresses or credentials that don't exist. #}
+{%- set org = {"@type": "Organization", "@id": settings.site_url ~ "/#organization", "name": "RADYNTA",
+               "url": settings.site_url ~ "/", "logo": settings.site_url ~ url_for('static', filename='img/logo.svg'),
+               "areaServed": {"@type": "Country", "name": "India"},
+               "description": "Search and AI visibility services for logistics companies."} -%}
+{%- if settings.contact_email %}{% set _ = org.update({"email": settings.contact_email}) %}{% endif -%}
+{%- if settings.contact_phone %}{% set _ = org.update({"telephone": settings.contact_phone}) %}{% endif -%}
+{%- set graph = [org] -%}
+{%- if page.home %}{% set _ = graph.append({"@type": "WebSite", "@id": settings.site_url ~ "/#website", "url": settings.site_url ~ "/", "name": "RADYNTA", "publisher": {"@id": settings.site_url ~ "/#organization"}}) %}{% endif -%}
+{%- if page.crumbs -%}
+  {%- set items = [] -%}
+  {%- for label, href in page.crumbs -%}
+    {%- set _ = items.append({"@type": "ListItem", "position": loop.index, "name": label, "item": (settings.site_url ~ href) if href else canonical_url}) -%}
+  {%- endfor -%}
+  {%- set _ = graph.append({"@type": "BreadcrumbList", "itemListElement": items}) -%}
+{%- endif -%}
+{%- if page.faqs -%}
+  {%- set qs = [] -%}
+  {%- for q, a in page.faqs %}{% set _ = qs.append({"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}}) %}{% endfor -%}
+  {%- set _ = graph.append({"@type": "FAQPage", "mainEntity": qs}) -%}
+{%- endif -%}
+{%- if page.article -%}
+  {%- set _ = graph.append({"@type": "Article", "headline": page.article.title, "description": page.article.description, "datePublished": page.article.published, "author": {"@id": settings.site_url ~ "/#organization"}, "publisher": {"@id": settings.site_url ~ "/#organization"}, "mainEntityOfPage": canonical_url}) -%}
+{%- endif %}
+<script type="application/ld+json">{{ {"@context": "https://schema.org", "@graph": graph}|tojson }}</script>

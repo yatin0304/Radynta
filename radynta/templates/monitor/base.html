@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>{% block title %}Monitor{% endblock %} · RADYNTA</title>
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/monitor.css') }}">
+</head>
+<body class="monitor">
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="{{ url_for('monitor.dashboard') }}">{% include "partials/logo.html" %}<span>RADYNTA</span><span class="tag">Monitor</span></a>
+    {% if g.get('user_email') %}
+    <nav class="mnav" aria-label="Monitor">
+      <a href="{{ url_for('monitor.dashboard') }}">Clients</a>
+      <a href="{{ url_for('monitor.enquiries') }}">Enquiries</a>
+      <form method="post" action="{{ url_for('monitor.logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="linkish" type="submit">Log out</button></form>
+    </nav>
+    {% endif %}
+  </div>
+</header>
+<main class="wrap mmain" id="main">
+  {% with msgs = get_flashed_messages() %}{% if msgs %}<div class="notice notice-accent" role="status">{% for m in msgs %}<p class="mb-0">{{ m }}</p>{% endfor %}</div>{% endif %}{% endwith %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

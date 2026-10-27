@@ -1,0 +1,18 @@
+{
+  "_comment": "TEMPLATE — replace every value with the real client's details before running an audit. Delete this line.",
+  "slug": "client-slug",
+  "name": "Client Company Name",
+  "brand_name": "Client Brand",
+  "brand_aliases": ["Client Brand Pvt Ltd"],
+  "website_url": "https://www.client-website.example/",
+  "primary_domain": "client-website.example",
+  "extra_domains": [],
+  "segment": "Freight forwarding / shipping",
+  "services": ["sea freight", "air freight", "customs clearance", "LCL consolidation"],
+  "geographies": ["Mumbai", "Nhava Sheva", "UAE", "Jebel Ali"],
+  "competitors": [
+    {"name": "Competitor One", "aliases": [], "domain": "competitor-one.example"},
+    {"name": "Competitor Two", "aliases": [], "domain": "competitor-two.example"}
+  ],
+  "prompts_csv": "data/prompts.csv"
+}

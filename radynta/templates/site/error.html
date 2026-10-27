@@ -1,0 +1,8 @@
+{% extends "site/base.html" %}
+{% block content %}
+<section class="page-head"><div class="wrap prose">
+  <h1>{{ page.title }}</h1>
+  <p class="lede">{{ message }}</p>
+  <a class="btn btn-secondary" href="{{ url_for('site.home') }}">Back to home</a>
+</div></section>
+{% endblock %}

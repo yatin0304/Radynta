@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Logistics Visibility Audit — Sample Roadlines (fictional) — 27 Oct 2026</title>
+<style>
+  :root { --ink:#0f1d2b; --text:#24303d; --muted:#5b6876; --line:#dfddd5; --soft:#f3f1eb; --accent:#b4441b; --ok:#1f6f4a; --warn:#8a5a00; --bad:#b42318; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9e7e0; color: var(--text); font: 14px/1.55 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .doc { max-width: 900px; margin: 24px auto; background: #fff; padding: 48px 56px; box-shadow: 0 2px 16px rgba(0,0,0,.06); }
+  @media (max-width: 700px) { .doc { padding: 24px 16px; margin: 0; } }
+  h1, h2, h3 { color: var(--ink); line-height: 1.25; margin: 0 0 10px; font-weight: 600; }
+  h1 { font-size: 28px; } h2 { font-size: 19px; margin-top: 36px; padding-top: 16px; border-top: 2px solid var(--ink); } h3 { font-size: 15px; margin-top: 18px; }
+  p { margin: 0 0 10px; } ul, ol { margin: 0 0 12px; padding-left: 20px; } li { margin-bottom: 4px; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; }
+  .muted { color: var(--muted); } .small { font-size: 12.5px; }
+  .brandline { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 28px; }
+  .wordmark { font-weight: 600; letter-spacing: .18em; color: var(--ink); }
+  .banner { border: 2px solid var(--warn); background: #fbf0d9; color: #5c3d00; padding: 10px 14px; border-radius: 4px; margin-bottom: 18px; font-weight: 600; }
+  .banner.sample { border-color: var(--accent); background: #f7e7dd; color: #6e270c; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 13px; }
+  th, td { text-align: left; vertical-align: top; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { font-family: "IBM Plex Mono", ui-monospace, monospace; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: var(--soft); }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  .score-wrap { display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 700px) { .score-wrap { grid-template-columns: 1fr; } }
+  .big { font: 600 54px/1 "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); }
+  .bar { display: block; width: 100%; height: 8px; margin: 3px 0 10px; }
+  .bar .bg { fill: #efede6; } .bar .fg { fill: #0f1d2b; } .bar .none { fill: #e4e1d8; }
+  .dimrow { display: flex; justify-content: space-between; gap: 12px; }
+  .tag { display: inline-block; font: 500 10.5px/1.6 "IBM Plex Mono", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .04em; padding: 0 6px; border-radius: 3px; background: var(--soft); }
+  .high { background: #fbe6e3; color: var(--bad); } .medium { background: #fbf0d9; color: var(--warn); } .low { background: var(--soft); } .ok { background: #e3f1e9; color: var(--ok); }
+  .rec { border: 1px solid var(--line); border-left: 4px solid var(--ink); border-radius: 4px; padding: 12px 14px; margin: 10px 0; page-break-inside: avoid; }
+  .rec.P1 { border-left-color: var(--bad); } .rec.P2 { border-left-color: var(--warn); }
+  .rec dl { display: grid; grid-template-columns: 140px 1fr; gap: 3px 12px; margin: 8px 0 0; }
+  .rec dt { color: var(--muted); font-size: 12.5px; } .rec dd { margin: 0; }
+  .urls { font: 11px/1.5 "IBM Plex Mono", ui-monospace, monospace; word-break: break-all; color: var(--muted); }
+  .quote { border-left: 3px solid var(--line); padding-left: 10px; color: var(--text); font-size: 12.5px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+  .footer { margin-top: 40px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); }
+  @media print {
+    body { background: #fff; } .doc { box-shadow: none; margin: 0; max-width: none; padding: 0; }
+    h2 { page-break-after: avoid; } table, .rec { page-break-inside: avoid; }
+    @page { size: A4; margin: 16mm 14mm; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+  <div class="brandline"><span class="wordmark">RADYNTA</span><span class="small muted mono">Logistics Visibility Audit · 27 Oct 2026</span></div>
+
+  <div class="banner sample">SAMPLE REPORT — all data in this report is synthetic and describes a fictional business. It is not a real client result.</div>
+  <div class="banner">DRAFT — not yet reviewed by RADYNTA. 18 recommendation(s) awaiting review. Do not share with the client.</div>
+
+  <h1>Sample Roadlines (fictional)</h1>
+  <p class="muted">Logistics Visibility Audit</p>
+
+  <!-- 1 -->
+  <h2>1. Client details and audit date</h2>
+  <table>
+    <tr><th>Company</th><td>Sample Roadlines (fictional)</td><th>Website</th><td>https://www.sample-roadlines.example/</td></tr>
+    <tr><th>Segment</th><td>Road transport / fleet operator</td><th>Audit date</th><td>2026-10-27</td></tr>
+    <tr><th>Core services</th><td>full truckload, part load, container transport, ODC transport</td><th>Target markets</th><td>Mumbai, Pune, Nashik, Gujarat</td></tr>
+  </table>
+
+  <!-- Executive summary -->
+  <h2>Summary</h2>
+  <div class="score-wrap">
+    <div>
+      <div class="small muted mono">DIAGNOSTIC SCORE</div>
+      <div class="big">44<span class="small muted"> / 100</span></div>
+      <p class="small muted">44.12 of 100 measured points.</p>
+      
+    </div>
+    <div>
+      
+      <div class="dimrow small"><span>AI answer visibility</span><span class="mono">7.2 / 25</span></div>
+      <svg class="bar" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><rect width="100" height="8" rx="2" class="bg"/><rect width="28.9" height="8" rx="2" class="fg"/></svg>
+      
+      <div class="dimrow small"><span>Technical SEO and crawlability</span><span class="mono">12.0 / 20</span></div>
+      <svg class="bar" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><rect width="100" height="8" rx="2" class="bg"/><rect width="60.0" height="8" rx="2" class="fg"/></svg>
+      
+      <div class="dimrow small"><span>Service and route relevance</span><span class="mono">3.5 / 20</span></div>
+      <svg class="bar" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><rect width="100" height="8" rx="2" class="bg"/><rect width="17.5" height="8" rx="2" class="fg"/></svg>
+      
+      <div class="dimrow small"><span>Trust and business credibility</span><span class="mono">10 / 15</span></div>
+      <svg class="bar" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><rect width="100" height="8" rx="2" class="bg"/><rect width="66.7" height="8" rx="2" class="fg"/></svg>
+      
+      <div class="dimrow small"><span>Content quality</span><span class="mono">3.4 / 10</span></div>
+      <svg class="bar" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><rect width="100" height="8" rx="2" class="bg"/><rect width="34.0" height="8" rx="2" class="fg"/></svg>
+      
+      <div class="dimrow small"><span>Conversion readiness</span><span class="mono">8 / 10</span></div>
+      <svg class="bar" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><rect width="100" height="8" rx="2" class="bg"/><rect width="80.0" height="8" rx="2" class="fg"/></svg>
+      
+    </div>
+  </div>
+  <p class="small muted">The diagnostic score is RADYNTA’s internal framework for prioritising work. It is not an official score or ranking from Google, ChatGPT, Gemini, Perplexity or any other platform.</p>
+  
+  <h3>Top priorities</h3><ol><li>Make the website a citable source for buyer questions</li><li>Add a genuine FAQ section to key service pages</li><li>Show business registration details and a privacy policy</li><li>Name each core service in page titles and headings</li><li>Create a dedicated page for each core service</li></ol>
+
+  <!-- 2 -->
+  <h2>2. Scope and methodology</h2>
+  <ul>
+    <li><strong>Website crawl:</strong> 6 public pages of https://www.sample-roadlines.example/, fetched politely with rate limits. robots.txt status 200; sitemap https://www.sample-roadlines.example/sitemap.xml (no URLs).</li>
+    <li><strong>AI visibility:</strong> 9 valid responses (1 failed, excluded) across 2 platform(s).</li>
+    <li><strong>Scoring:</strong> six dimensions — AI answer visibility (25), technical SEO (20), service and route relevance (20), trust (15), content quality (10), conversion readiness (10). Unmeasured checks are excluded from the total, not scored as zero.</li>
+    <li><strong>Review:</strong> every recommendation was reviewed by RADYNTA before delivery <em>(pending for this draft)</em>.</li>
+  </ul>
+
+  <!-- 3 -->
+  <h2>3. Platforms and questions tested</h2>
+  
+  <table><thead><tr><th>Platform</th><th>Collection method</th><th>Model</th><th>Date</th><th class="num">Valid / total</th></tr></thead><tbody>
+  <tr><td>sample-platform-a</td><td>Synthetic sample data</td><td>synthetic</td><td>2026-10-20</td><td class="num">4 / 5</td></tr><tr><td>sample-platform-b</td><td>Synthetic sample data</td><td>synthetic</td><td>2026-10-21</td><td class="num">5 / 5</td></tr>
+  </tbody></table>
+  
+  <h3>Buyer questions (5)</h3><ol class="small"><li>Which transport companies provide full truckload services between Mumbai and Pune? <span class="muted">· Mumbai–Pune</span></li><li>Who offers part load transport from Pune to Nashik? <span class="muted">· Pune–Nashik</span></li><li>Which transporters have 32 ft containers in Maharashtra? <span class="muted">· Maharashtra</span></li><li>Reliable ODC transport company for machinery in Gujarat? <span class="muted">· Gujarat</span></li><li>Best road transport company in Mumbai for industrial goods? <span class="muted">· Mumbai</span></li></ol>
+
+  <!-- 4 -->
+  <h2>4. AI visibility findings</h2>
+  
+  <table><thead><tr><th>Platform</th><th class="num">Brand mention rate</th><th class="num">Client-domain citation rate</th><th class="num">Change vs previous</th></tr></thead><tbody>
+  <tr><td>sample-platform-a</td>
+    <td class="num">50% <span class="muted">(2/4)</span></td>
+    <td class="num">25% <span class="muted">(1/4)</span></td>
+    <td class="num">first measurement</td></tr><tr><td>sample-platform-b</td>
+    <td class="num">20% <span class="muted">(1/5)</span></td>
+    <td class="num">20% <span class="muted">(1/5)</span></td>
+    <td class="num">first measurement</td></tr>
+  </tbody></table>
+  <p class="small muted">A <em>mention</em> means the brand name appears in the answer; a <em>citation</em> means the client website was given as a source. Rates use valid responses only.</p>
+  
+  <h3>Example mentions</h3><p class="quote"><strong>sample-platform-a:</strong> “Which transport companies provide full truckload services between Mumbai and Pune?”<br>SYNTHETIC SAMPLE ANSWER. Several operators run FTL on the Mumbai–Pune corridor, including Example Freight Carriers and Demo Logistics Co. Sample Roadlines also lists FTL services on its website.</p><p class="quote"><strong>sample-platform-a:</strong> “Best road transport company in Mumbai for industrial goods?”<br>SYNTHETIC SAMPLE ANSWER. Options in Mumbai include Example Freight Carriers, Demo Logistics Co and Sample Roadlines Pvt Ltd, depending on load size.</p><p class="quote"><strong>sample-platform-b:</strong> “Best road transport company in Mumbai for industrial goods?”<br>SYNTHETIC SAMPLE ANSWER. Sample Roadlines and Example Freight Carriers both serve industrial shippers in Mumbai.</p>
+  
+
+  <!-- 5 -->
+  <h2>5. Citation and competitor analysis</h2>
+  
+  <div class="grid2">
+    <div><h3>Competitors mentioned</h3>
+      <table><thead><tr><th>Competitor</th><th class="num">Responses</th></tr></thead><tbody>
+      <tr><td>Example Freight Carriers</td><td class="num">6 (67%)</td></tr><tr><td>Demo Logistics Co</td><td class="num">4 (44%)</td></tr>
+      </tbody></table></div>
+    <div><h3>Most cited sources</h3>
+      <table><thead><tr><th>Domain</th><th class="num">Responses</th></tr></thead><tbody>
+      <tr><td>example-freight.example</td><td class="num">4</td></tr><tr><td>directory.example</td><td class="num">4</td></tr><tr><td>sample-roadlines.example <span class="tag ok">client</span></td><td class="num">2</td></tr><tr><td>demo-logistics.example</td><td class="num">2</td></tr><tr><td>marketplace.example</td><td class="num">2</td></tr><tr><td>news.example</td><td class="num">1</td></tr>
+      </tbody></table></div>
+  </div>
+  <p class="small muted">Domains cited instead of the client — directories, marketplaces, competitors — show where buyers and AI systems currently find logistics information for these questions.</p>
+  
+
+  
+
+  <!-- 6 -->
+  <h2>6. Technical website findings</h2>
+  
+    
+    <table><thead><tr><th>Check</th><th class="num">Score</th><th>Evidence</th></tr></thead><tbody>
+    <tr><td>Homepage reachable over HTTPS</td><td class="num">3 / 3</td>
+      <td class="small">Homepage https://www.sample-roadlines.example/ returned 200 (final URL https://www.sample-roadlines.example/)</td></tr><tr><td>robots.txt accessible and not blocking the site</td><td class="num">2 / 2</td>
+      <td class="small">robots.txt returned 200 and permits crawling of the homepage</td></tr><tr><td>XML sitemap available</td><td class="num">0.0 / 2</td>
+      <td class="small">No sitemap found (checked https://www.sample-roadlines.example/sitemap.xml, status 404)</td></tr><tr><td>Pages indexable (no unintended noindex)</td><td class="num">3.0 / 3</td>
+      <td class="small">0 of 5 crawled pages carry a noindex directive</td></tr><tr><td>Unique, well-sized page titles</td><td class="num">1.8 / 3</td>
+      <td class="small">2 of 5 pages have a missing, too short/long (outside 10–65 chars) or duplicated title; 1 duplicated title text(s)<div class="urls">https://www.sample-roadlines.example/fleet/ · https://www.sample-roadlines.example/services/</div></td></tr><tr><td>Unique meta descriptions</td><td class="num">0.4 / 2</td>
+      <td class="small">4 of 5 pages have a missing, poorly sized (outside 50–170 chars) or duplicated meta description<div class="urls">https://www.sample-roadlines.example/ · https://www.sample-roadlines.example/contact/ · https://www.sample-roadlines.example/fleet/ · https://www.sample-roadlines.example/services/</div></td></tr><tr><td>Exactly one H1 per page</td><td class="num">1.6 / 2</td>
+      <td class="small">1 of 5 pages have zero or multiple H1 headings<div class="urls">https://www.sample-roadlines.example/fleet/</div></td></tr><tr><td>Self-referencing canonical URLs</td><td class="num">0.2 / 1</td>
+      <td class="small">4 of 5 pages lack a canonical tag, point it to another domain, or point it to a different URL; 4 inner page(s) declare the HOMEPAGE as canonical, which asks search engines to ignore them<div class="urls">https://www.sample-roadlines.example/about-us/ · https://www.sample-roadlines.example/contact/ · https://www.sample-roadlines.example/fleet/ · https://www.sample-roadlines.example/services/</div></td></tr><tr><td>No broken internal pages among crawled URLs</td><td class="num">0 / 2</td>
+      <td class="small">1 of 6 crawled internal URLs returned an error (4xx/5xx or fetch failure)<div class="urls">https://www.sample-roadlines.example/old-rates/</div></td></tr>
+    </tbody></table>
+  
+  <h3>Trust and business credibility</h3>
+  
+    
+    <table><thead><tr><th>Check</th><th class="num">Score</th><th>Evidence</th></tr></thead><tbody>
+    <tr><td>Phone number visible</td><td class="num">3 / 3</td>
+      <td class="small">Phone number or tel: link found on 5 page(s)</td></tr><tr><td>Business email visible</td><td class="num">2 / 2</td>
+      <td class="small">Email address found on 5 page(s)</td></tr><tr><td>Physical address with PIN code</td><td class="num">3 / 3</td>
+      <td class="small">Address-like text with PIN code on 1 page(s)</td></tr><tr><td>About / company page</td><td class="num">2 / 2</td>
+      <td class="small">About page: https://www.sample-roadlines.example/about-us/</td></tr><tr><td>Organization / LocalBusiness structured data</td><td class="num">0 / 2</td>
+      <td class="small">No Organization or LocalBusiness JSON-LD detected</td></tr><tr><td>Business identity signals (GSTIN, privacy policy)</td><td class="num">0 / 3</td>
+      <td class="small">GSTIN shown: no; privacy policy: no</td></tr>
+    </tbody></table>
+  
+  <h3>Content quality</h3>
+  
+    
+    <table><thead><tr><th>Check</th><th class="num">Score</th><th>Evidence</th></tr></thead><tbody>
+    <tr><td>Pages with substantive content (250+ words)</td><td class="num">1.6 / 4</td>
+      <td class="small">3 of 5 pages have fewer than 250 words of visible text<div class="urls">https://www.sample-roadlines.example/contact/ · https://www.sample-roadlines.example/fleet/ · https://www.sample-roadlines.example/services/</div></td></tr><tr><td>Clear heading structure (2+ H2s, no skipped levels)</td><td class="num">1.8 / 3</td>
+      <td class="small">3 of 5 pages have at least two H2 sections without skipped heading levels</td></tr><tr><td>Question-and-answer content buyers can quote</td><td class="num">0 / 3</td>
+      <td class="small">No page with 3+ question headings or FAQPage markup</td></tr>
+    </tbody></table>
+  
+
+  <!-- 7 -->
+  <h2>7. Logistics service and route page analysis</h2>
+  
+    
+    <table><thead><tr><th>Check</th><th class="num">Score</th><th>Evidence</th></tr></thead><tbody>
+    <tr><td>Configured services appear in titles/H1s</td><td class="num">2.0 / 8</td>
+      <td class="small">full truckload: body text only; part load: body text only; container transport: not found; ODC transport: not found</td></tr><tr><td>Dedicated pages for each core service</td><td class="num">0.0 / 4</td>
+      <td class="small">0 of 4 services have a dedicated page; missing: full truckload, part load, container transport, ODC transport</td></tr><tr><td>Target cities, states and routes covered</td><td class="num">1.5 / 6</td>
+      <td class="small">Mumbai: body text only; Pune: body text only; Nashik: not found; Gujarat: not found</td></tr><tr><td>Homepage states what the company does</td><td class="num">0 / 2</td>
+      <td class="small">Homepage title/H1: “sample roadlines welcome to sample roadlines” — no service term found</td></tr>
+    </tbody></table>
+  
+
+  <!-- 8 -->
+  <h2>8. Conversion-readiness findings</h2>
+  
+    
+    <table><thead><tr><th>Check</th><th class="num">Score</th><th>Evidence</th></tr></thead><tbody>
+    <tr><td>Click-to-call link</td><td class="num">3 / 3</td>
+      <td class="small">tel: links on 1 page(s)</td></tr><tr><td>WhatsApp contact link</td><td class="num">0 / 2</td>
+      <td class="small">No WhatsApp link detected</td></tr><tr><td>Enquiry / quote form</td><td class="num">3 / 3</td>
+      <td class="small">Enquiry-style forms on 1 page(s)</td></tr><tr><td>Clear enquiry call-to-action on homepage</td><td class="num">2 / 2</td>
+      <td class="small">Homepage CTAs: get a quote</td></tr>
+    </tbody></table>
+  
+
+  <!-- 9 -->
+  <h2>9. Prioritised recommendations</h2>
+  
+  <div class="rec P1">
+    <strong>P1 · Make the website a citable source for buyer questions</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Client website cited as a source</dd>
+      <dt>Evidence</dt><dd class="small">22% of 9 valid responses (sample-platform-a, sample-platform-b) (Limitation: Small samples; AI answers vary between runs, locations and accounts.)</dd>
+      <dt>Why it matters</dt><dd>Even when an AI answer mentions a brand, it may cite a directory or competitor instead of the brand’s own site.</dd>
+      <dt>Suggested action</dt><dd>Publish pages that directly answer the tested buyer questions (service + location + specifics). Review which domains are cited today and close the content gaps they reveal.</dd>
+      <dt>Effort</dt><dd>Medium–High</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If the website directly answers the tested questions, the client domain may be cited more often. No outcome is guaranteed.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P1">
+    <strong>P1 · Add a genuine FAQ section to key service pages</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Question-and-answer content buyers can quote</dd>
+      <dt>Evidence</dt><dd class="small">No page with 3+ question headings or FAQPage markup</dd>
+      <dt>Why it matters</dt><dd>Buyers ask questions in natural language — the same way they ask AI assistants. Direct answers on your own pages give those systems something accurate to quote.</dd>
+      <dt>Suggested action</dt><dd>Collect the real questions your sales team hears and answer them on the relevant service pages. Mark up with FAQPage schema only if the Q&amp;A is visible on the page.</dd>
+      <dt>Effort</dt><dd>Medium</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If the site answers common buyer questions directly, it may be more likely to be cited for them. FAQ markup alone does not guarantee visibility.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P1">
+    <strong>P1 · Show business registration details and a privacy policy</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Business identity signals (GSTIN, privacy policy)</dd>
+      <dt>Evidence</dt><dd class="small">GSTIN shown: no; privacy policy: no</dd>
+      <dt>Why it matters</dt><dd>GSTIN and a privacy policy are basic credibility signals for Indian B2B buyers and are expected under India’s data protection rules when collecting enquiries.</dd>
+      <dt>Suggested action</dt><dd>Display the GSTIN in the footer (if the business is comfortable doing so) and publish a privacy policy describing how enquiry data is used.</dd>
+      <dt>Effort</dt><dd>Low</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If identity signals are visible, cautious buyers may be more willing to submit an enquiry.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P1">
+    <strong>P1 · Name each core service in page titles and headings</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Configured services appear in titles/H1s</dd>
+      <dt>Evidence</dt><dd class="small">full truckload: body text only; part load: body text only; container transport: not found; ODC transport: not found</dd>
+      <dt>Why it matters</dt><dd>Buyers search by service (“part load transport”, “customs clearance”). If the service is only mentioned in passing, the site is unlikely to match those searches or AI answers.</dd>
+      <dt>Suggested action</dt><dd>For every service marked ‘not found’ or ‘body text only’, add it to the title and H1 of the most relevant page.</dd>
+      <dt>Effort</dt><dd>Medium (half a day)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If services are stated explicitly, the site may become eligible to appear for more service-specific queries.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P1">
+    <strong>P1 · Create a dedicated page for each core service</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Dedicated pages for each core service</dd>
+      <dt>Evidence</dt><dd class="small">0 of 4 services have a dedicated page; missing: full truckload, part load, container transport, ODC transport</dd>
+      <dt>Why it matters</dt><dd>A single generic ‘Services’ page cannot answer specific buyer questions about each service.</dd>
+      <dt>Suggested action</dt><dd>Create one substantive page per missing service: what it covers, vehicle/equipment types, coverage, typical lead times, documents needed, and a quote CTA.</dd>
+      <dt>Effort</dt><dd>Medium–High (1 page per day including review)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If each service has a focused page, those pages may be cited or ranked for service-specific questions.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P1">
+    <strong>P1 · Cover the cities, states and routes you actually serve</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Target cities, states and routes covered</dd>
+      <dt>Evidence</dt><dd class="small">Mumbai: body text only; Pune: body text only; Nashik: not found; Gujarat: not found</dd>
+      <dt>Why it matters</dt><dd>Logistics buyers almost always search with a location or lane. Missing geography means missing the question entirely.</dd>
+      <dt>Suggested action</dt><dd>Add genuine coverage details (branches, lanes, transit times) for each target geography. Create route pages only where you operate regularly — avoid thin, copy-paste location pages.</dd>
+      <dt>Effort</dt><dd>Medium (depends on number of lanes)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If target locations and lanes are covered with real detail, the site may appear for more location-specific queries.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · Strengthen the facts AI systems can find about the brand</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Brand mentioned in AI answers</dd>
+      <dt>Evidence</dt><dd class="small">33% of 9 valid responses (sample-platform-a, sample-platform-b) (Limitation: Small samples; AI answers vary between runs, locations and accounts.)</dd>
+      <dt>Why it matters</dt><dd>When buyers ask AI assistants for logistics providers, brands that are not mentioned are not considered.</dd>
+      <dt>Suggested action</dt><dd>Make service, coverage and credibility facts explicit on the website; keep business listings consistent; earn mentions on relevant industry directories and associations. Re-test the same questions monthly.</dd>
+      <dt>Effort</dt><dd>Ongoing</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If the brand’s facts are explicit and consistent across sources, mention rates may improve over subsequent test runs. No outcome is guaranteed.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · Expand thin pages with useful, specific information</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Pages with substantive content (250+ words)</dd>
+      <dt>Evidence</dt><dd class="small">3 of 5 pages have fewer than 250 words of visible text (Limitation: Word count is a proxy; it does not measure accuracy or usefulness.)</dd>
+      <dt>Why it matters</dt><dd>Short pages rarely answer a buyer’s real questions about capacity, coverage, timelines or documentation.</dd>
+      <dt>Suggested action</dt><dd>Expand each listed page to cover: who the service is for, what is included, coverage, typical transit/lead times, documentation, and FAQs. Use real operational detail.</dd>
+      <dt>Effort</dt><dd>Medium–High</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If pages answer buyer questions directly, they are more likely to be used as a source for those questions.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · Add Organization structured data that matches the page</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Organization / LocalBusiness structured data</dd>
+      <dt>Evidence</dt><dd class="small">No Organization or LocalBusiness JSON-LD detected</dd>
+      <dt>Why it matters</dt><dd>Structured data gives search engines an unambiguous record of the business name, URL, logo and contact points.</dd>
+      <dt>Suggested action</dt><dd>Add Organization (or LocalBusiness) JSON-LD with genuine name, URL, logo, phone and address. Never add ratings or reviews that are not shown on the page. Fix any JSON-LD that fails to parse.</dd>
+      <dt>Effort</dt><dd>Low (1–2 hours)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If the entity is described consistently, search engines may associate the brand with its website more reliably. Structured data does not guarantee rich results or AI citations.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · State clearly on the homepage what you do and where</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Homepage states what the company does</dd>
+      <dt>Evidence</dt><dd class="small">Homepage title/H1: “sample roadlines welcome to sample roadlines” — no service term found</dd>
+      <dt>Why it matters</dt><dd>Visitors and AI systems summarise a company from its homepage; a vague headline leads to vague or missing mentions.</dd>
+      <dt>Suggested action</dt><dd>Rewrite the homepage title and H1 to include the primary service and region, e.g. “Full Truckload &amp; Part Load Transport across Maharashtra”.</dd>
+      <dt>Effort</dt><dd>Low (1 hour)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If the homepage is explicit, summaries of the business may become more accurate.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · Publish an XML sitemap</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>XML sitemap available</dd>
+      <dt>Evidence</dt><dd class="small">No sitemap found (checked https://www.sample-roadlines.example/sitemap.xml, status 404)</dd>
+      <dt>Why it matters</dt><dd>A sitemap helps search engines find every service, route and location page, not only those linked from the homepage.</dd>
+      <dt>Suggested action</dt><dd>Generate /sitemap.xml listing all canonical public pages, reference it in robots.txt and submit it in Google Search Console and Bing Webmaster Tools.</dd>
+      <dt>Effort</dt><dd>Low (1–2 hours; most CMSs have a plugin)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If a sitemap is submitted, deeper pages such as route pages may be indexed more completely.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · Write unique meta descriptions</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Unique meta descriptions</dd>
+      <dt>Evidence</dt><dd class="small">4 of 5 pages have a missing, poorly sized (outside 50–170 chars) or duplicated meta description</dd>
+      <dt>Why it matters</dt><dd>Meta descriptions shape the search snippet and help a buyer decide whether to enquire.</dd>
+      <dt>Suggested action</dt><dd>Write a 50–170 character description for each page summarising the service, coverage and the next step (call / quote).</dd>
+      <dt>Effort</dt><dd>Low (10 minutes per page)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If snippets are specific, more qualified searchers may click through.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · Make every page’s canonical URL point to itself</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Self-referencing canonical URLs</dd>
+      <dt>Evidence</dt><dd class="small">4 of 5 pages lack a canonical tag, point it to another domain, or point it to a different URL; 4 inner page(s) declare the HOMEPAGE as canonical, which asks search engines to ignore them (Limitation: A canonical pointing elsewhere can be intentional for duplicate pages; confirm before changing.)</dd>
+      <dt>Why it matters</dt><dd>A missing or wrong canonical can split ranking signals across URL variants — or, if inner pages point to the homepage, tell search engines to ignore those pages entirely.</dd>
+      <dt>Suggested action</dt><dd>On each page, set &lt;link rel=&#34;canonical&#34;&gt; to that page’s own preferred https URL. Only point elsewhere for genuine duplicates.</dd>
+      <dt>Effort</dt><dd>Low (template change)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If duplicates consolidate, the preferred URL may accumulate signals more consistently.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · Fix broken internal pages</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>No broken internal pages among crawled URLs</dd>
+      <dt>Evidence</dt><dd class="small">1 of 6 crawled internal URLs returned an error (4xx/5xx or fetch failure) (Limitation: Only crawled URLs were checked; internal URLs beyond the page limit were not tested.)</dd>
+      <dt>Why it matters</dt><dd>Broken pages waste crawl effort and lose buyers who click from navigation or search.</dd>
+      <dt>Suggested action</dt><dd>Restore or 301-redirect each failing URL to the most relevant live page, then update internal links.</dd>
+      <dt>Effort</dt><dd>Low–Medium (depends on count)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If dead ends are removed, fewer visitors drop off before enquiring.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P2">
+    <strong>P2 · Add a WhatsApp contact option</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>WhatsApp contact link</dd>
+      <dt>Evidence</dt><dd class="small">No WhatsApp link detected</dd>
+      <dt>Why it matters</dt><dd>Many Indian transport and freight buyers prefer WhatsApp for quick rate requests.</dd>
+      <dt>Suggested action</dt><dd>Add a wa.me link to a monitored business WhatsApp number with a pre-filled message, e.g. “Hi, I need a quote for…”.</dd>
+      <dt>Effort</dt><dd>Low</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If buyers can message in their preferred channel, enquiry volume from mobile may increase.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P3">
+    <strong>P3 · Structure pages with clear sections</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Clear heading structure (2+ H2s, no skipped levels)</dd>
+      <dt>Evidence</dt><dd class="small">3 of 5 pages have at least two H2 sections without skipped heading levels</dd>
+      <dt>Why it matters</dt><dd>Clear H2 sections make pages easier for buyers to scan and for search systems to extract answers from.</dd>
+      <dt>Suggested action</dt><dd>Break pages into H2 sections (e.g. Coverage, Vehicle types, Process, Documents, FAQs) and do not skip heading levels.</dd>
+      <dt>Effort</dt><dd>Low–Medium</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If content is well structured, specific passages may be easier to surface for specific questions.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P3">
+    <strong>P3 · Write a unique, descriptive title for every page</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Unique, well-sized page titles</dd>
+      <dt>Evidence</dt><dd class="small">2 of 5 pages have a missing, too short/long (outside 10–65 chars) or duplicated title; 1 duplicated title text(s)</dd>
+      <dt>Why it matters</dt><dd>Titles are the first thing a buyer sees in search results; duplicated or vague titles make service pages indistinguishable.</dd>
+      <dt>Suggested action</dt><dd>Give each page a 10–65 character title naming the service and location, e.g. “FTL Truck Transport Mumbai to Pune | Company”.</dd>
+      <dt>Effort</dt><dd>Low–Medium (15 minutes per page)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If titles match how buyers search, click-through from search results may improve.</dd>
+    </dl>
+  </div>
+  
+  <div class="rec P3">
+    <strong>P3 · Use exactly one H1 per page</strong> <span class="tag">draft</span>
+    <dl>
+      <dt>Finding</dt><dd>Exactly one H1 per page</dd>
+      <dt>Evidence</dt><dd class="small">1 of 5 pages have zero or multiple H1 headings</dd>
+      <dt>Why it matters</dt><dd>A single clear H1 tells search engines and AI systems what the page is about.</dd>
+      <dt>Suggested action</dt><dd>Make the main page heading the only H1 and convert other large headings to H2/H3.</dd>
+      <dt>Effort</dt><dd>Low (template change)</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> If page topics are unambiguous, the right page is more likely to be matched to the right query.</dd>
+    </dl>
+  </div>
+  
+
+  <!-- 10 -->
+  <h2>10. Measurement limitations</h2>
+  <ul class="small"><li>The diagnostic score is RADYNTA’s internal framework for prioritising work. It is not an official score or ranking from Google, OpenAI, Perplexity, Microsoft or any other platform.</li><li>AI answers vary between runs, users, locations and over time. Visibility results are a sample collected on the dates shown, not a permanent measurement.</li><li>API-collected answers may differ from what users see in consumer apps. The collection method for each platform is listed in the scope section.</li><li>Rates use valid responses as the denominator. Failed collections are reported separately and are never counted as ‘not mentioned’.</li><li>The website crawl covered public pages only, within a fixed page limit. Pages behind logins, forms or JavaScript-only rendering may not have been assessed.</li><li>Expected outcomes are hypotheses. No ranking, citation or enquiry increase is guaranteed.</li><li>A1 Brand mentioned in AI answers: Small samples; AI answers vary between runs, locations and accounts.</li><li>A2 Client website cited as a source: Small samples; AI answers vary between runs, locations and accounts.</li><li>T8 Self-referencing canonical URLs: A canonical pointing elsewhere can be intentional for duplicate pages; confirm before changing.</li><li>T9 No broken internal pages among crawled URLs: Only crawled URLs were checked; internal URLs beyond the page limit were not tested.</li><li>R1 Phone number visible: Numbers rendered only as images or by JavaScript are not detected.</li><li>R3 Physical address with PIN code: Heuristic detection; a human reviewer should confirm the address is complete and matches the Google Business Profile.</li><li>C1 Pages with substantive content (250+ words): Word count is a proxy; it does not measure accuracy or usefulness.</li><li>V3 Enquiry / quote form: Forms injected by third-party scripts after page load may not be detected.</li></ul>
+
+  <!-- 11 -->
+  <h2>11. Suggested 30-day action plan</h2>
+  <table><thead><tr><th>When</th><th>Focus</th><th>Actions</th></tr></thead><tbody>
+  <tr><td class="mono">Week 1</td><td>Fix the highest-impact blockers</td><td><ul><li>Make the website a citable source for buyer questions</li><li>Add a genuine FAQ section to key service pages</li><li>Show business registration details and a privacy policy</li></ul></td></tr><tr><td class="mono">Week 2</td><td>Complete remaining priority fixes</td><td><ul><li>Name each core service in page titles and headings</li><li>Create a dedicated page for each core service</li><li>Cover the cities, states and routes you actually serve</li></ul></td></tr><tr><td class="mono">Week 3</td><td>Improve relevance and content</td><td><ul><li>Strengthen the facts AI systems can find about the brand</li><li>Expand thin pages with useful, specific information</li><li>Add Organization structured data that matches the page</li><li>State clearly on the homepage what you do and where</li><li>Publish an XML sitemap</li><li>Write unique meta descriptions</li><li>Make every page’s canonical URL point to itself</li><li>Fix broken internal pages</li><li>Add a WhatsApp contact option</li></ul></td></tr><tr><td class="mono">Week 4</td><td>Polish and re-measure</td><td><ul><li>Structure pages with clear sections</li><li>Write a unique, descriptive title for every page</li><li>Use exactly one H1 per page</li><li>Re-run the website audit and the same AI visibility questions to compare against this baseline</li></ul></td></tr>
+  </tbody></table>
+
+  <div class="footer">
+    Prepared by RADYNTA · https://radynta.com<br>
+    This report reflects data collected on the dates shown. Search results and AI answers change over time. No ranking, citation or enquiry outcome is guaranteed.
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ page.title }}</title>
+  {% if page.description %}<meta name="description" content="{{ page.description }}">{% endif %}
+  {% if page.noindex %}<meta name="robots" content="noindex, follow">{% else %}<link rel="canonical" href="{{ canonical_url }}">{% endif %}
+  <meta property="og:type" content="{{ 'article' if page.article else 'website' }}">
+  <meta property="og:site_name" content="RADYNTA">
+  <meta property="og:title" content="{{ page.title }}">
+  {% if page.description %}<meta property="og:description" content="{{ page.description }}">{% endif %}
+  <meta property="og:url" content="{{ canonical_url }}">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="{{ url_for('static', filename='img/favicon.svg') }}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+  {% include "partials/jsonld.html" %}
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="{{ url_for('site.home') }}" aria-label="RADYNTA home">{% include "partials/logo.html" %}<span>RADYNTA</span></a>
+    <nav class="nav" aria-label="Main">
+      <details class="nav-menu">
+        <summary>Services</summary>
+        <div class="dropdown">
+          <a href="{{ url_for('site.services') }}"><strong>All services &amp; pricing</strong></a>
+          {% for slug, s in nav_services.items() %}<a href="{{ url_for('site.service_detail', slug=slug) }}">{{ s.name }}</a>{% endfor %}
+        </div>
+      </details>
+      <details class="nav-menu">
+        <summary>Industries</summary>
+        <div class="dropdown">
+          {% for slug, i in nav_industries.items() %}<a href="{{ url_for('site.industry', slug=slug) }}">{{ i.nav }}</a>{% endfor %}
+        </div>
+      </details>
+      <a href="{{ url_for('site.resources') }}" {% if current_path.startswith('/resources') %}aria-current="page"{% endif %}>Resources</a>
+      <a href="{{ url_for('site.about') }}" {% if current_path == '/about/' %}aria-current="page"{% endif %}>About</a>
+      <a href="{{ url_for('site.contact') }}" {% if current_path == '/contact/' %}aria-current="page"{% endif %}>Contact</a>
+    </nav>
+    <div class="header-cta"><a class="btn btn-primary btn-sm" href="{{ url_for('site.audit_request') }}">Request an audit</a></div>
+    <details class="mobile-nav">
+      <summary aria-label="Open menu">Menu</summary>
+      <div class="mobile-panel">
+        <a href="{{ url_for('site.audit_request') }}"><strong>Request a Logistics Visibility Audit</strong></a>
+        <div class="group-label">Services</div>
+        <a href="{{ url_for('site.services') }}">All services &amp; pricing</a>
+        {% for slug, s in nav_services.items() %}<a href="{{ url_for('site.service_detail', slug=slug) }}">{{ s.name }}</a>{% endfor %}
+        <div class="group-label">Industries</div>
+        {% for slug, i in nav_industries.items() %}<a href="{{ url_for('site.industry', slug=slug) }}">{{ i.nav }}</a>{% endfor %}
+        <div class="group-label">Company</div>
+        <a href="{{ url_for('site.resources') }}">Resources</a>
+        <a href="{{ url_for('site.about') }}">About</a>
+        <a href="{{ url_for('site.contact') }}">Contact</a>
+      </div>
+    </details>
+  </div>
+</header>
+
+<main id="main">
+  {% if page.crumbs %}
+  <nav class="crumbs wrap" aria-label="Breadcrumb"><ol>
+    {% for label, href in page.crumbs %}<li>{% if href %}<a href="{{ href }}">{{ label }}</a>{% else %}<span aria-current="page">{{ label }}</span>{% endif %}</li>{% endfor %}
+  </ol></nav>
+  {% endif %}
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="{{ url_for('site.home') }}">{% include "partials/logo.html" %}<span>RADYNTA</span></a>
+        <p class="small">Search and AI visibility for logistics businesses in India.</p>
+        {% if settings.contact_email %}<p class="small"><a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></p>{% endif %}
+        {% if settings.contact_phone %}<p class="small"><a href="tel:{{ settings.contact_phone|replace(' ', '') }}">{{ settings.contact_phone }}</a></p>{% endif %}
+      </div>
+      <div>
+        <h4>Services</h4>
+        <ul>{% for slug, s in nav_services.items() %}<li><a href="{{ url_for('site.service_detail', slug=slug) }}">{{ s.name }}</a></li>{% endfor %}
+          <li><a href="{{ url_for('site.services') }}#pricing">Pricing</a></li></ul>
+      </div>
+      <div>
+        <h4>Industries</h4>
+        <ul>{% for slug, i in nav_industries.items() %}<li><a href="{{ url_for('site.industry', slug=slug) }}">{{ i.name }}</a></li>{% endfor %}</ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="{{ url_for('site.about') }}">About</a></li>
+          <li><a href="{{ url_for('site.resources') }}">Resources</a></li>
+          <li><a href="{{ url_for('site.contact') }}">Contact</a></li>
+          <li><a href="{{ url_for('site.audit_request') }}">Request an audit</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {{ 2026 }} RADYNTA. All rights reserved.</span>
+      <span><a href="{{ url_for('site.privacy') }}">Privacy Policy</a> · <a href="{{ url_for('site.terms') }}">Terms of Service</a></span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

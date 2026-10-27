@@ -1,0 +1,38 @@
+{% extends "site/article_base.html" %}
+{% block body %}
+<p>Before spending on content or marketing, make sure the basics work. These are the checks our audit crawler runs, in plain language.</p>
+
+<h2>Can search engines reach and index your pages?</h2>
+<ol>
+  <li><strong>The homepage loads over HTTPS without errors.</strong> http:// should redirect permanently to https://.</li>
+  <li><strong>robots.txt exists and doesn’t block the site.</strong> A leftover <code>Disallow: /</code> from development is more common than you’d think.</li>
+  <li><strong>An XML sitemap lists every public page</strong> and is referenced in robots.txt.</li>
+  <li><strong>No important page is marked noindex.</strong> Check service and location pages especially.</li>
+  <li><strong>No internal links lead to error pages.</strong> Old service pages and removed branches are the usual culprits.</li>
+</ol>
+
+<h2>Does every page say clearly what it is about?</h2>
+<ol start="6">
+  <li><strong>Each page has a unique title of 10–65 characters</strong> naming the service and, where relevant, the location: “Part Load Transport Pune to Bengaluru | Company”.</li>
+  <li><strong>Each page has a unique meta description</strong> summarising the service and the next step.</li>
+  <li><strong>Each page has exactly one H1</strong>, with H2 sections below it in order.</li>
+  <li><strong>Canonical tags point to the preferred https URL.</strong> If you run both .com and .in sites, decide which is canonical.</li>
+</ol>
+
+<h2>Would a buyer find the answer to their question?</h2>
+<ol start="10">
+  <li><strong>Every core service has its own page</strong> with real detail: scope, coverage, vehicles or facilities, lead times, documentation.</li>
+  <li><strong>The lanes, cities and facilities you actually serve are named</strong> in headings and copy — not only in a PDF brochure.</li>
+  <li><strong>Common buyer questions are answered directly</strong>, on the pages where they belong.</li>
+</ol>
+
+<h2>Can a buyer trust you and contact you easily?</h2>
+<ol start="13">
+  <li><strong>Phone, email and full address with PIN code are visible as text</strong>, and match your Google Business Profile.</li>
+  <li><strong>Mobile visitors can tap to call or WhatsApp</strong>, and there is a short quote form.</li>
+  <li><strong>Organization structured data describes the business accurately</strong> — and contains nothing that isn’t true or visible on the page (no invented ratings).</li>
+</ol>
+
+<h2>What this checklist won’t do</h2>
+<p>Passing these checks doesn’t guarantee rankings or AI citations. It removes the obstacles that would otherwise stop good content from being found. Visibility then depends on how well your pages answer real buyer questions and how consistently your business is described across the web.</p>
+{% endblock %}

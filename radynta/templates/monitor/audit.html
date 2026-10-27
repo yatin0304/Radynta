@@ -1,0 +1,66 @@
+{% extends "monitor/base.html" %}
+{% from "partials/macros.html" import bar, sev %}
+{% block title %}Audit #{{ rep.audit.id }} · {{ c.name }}{% endblock %}
+{% block content %}
+{% set s = rep.score %}
+<p class="small"><a href="{{ url_for('monitor.client', slug=c.slug) }}">← {{ c.name }}</a></p>
+<div class="header-row">
+  <div>
+    <h1>Audit #{{ rep.audit.id }} {% if rep.is_sample %}<span class="tag tag-warn">SAMPLE</span>{% endif %}
+      {% if rep.audit.approved %}<span class="tag tag-ok">approved by {{ rep.audit.approved_by }}</span>{% else %}<span class="tag">draft — {{ rep.draft_count }} recommendation(s) to review</span>{% endif %}</h1>
+    <p class="muted small">{{ rep.audit.start_url }} · {{ rep.audit.pages_crawled }} pages · {{ rep.audit.started_at }} UTC</p>
+  </div>
+  <div class="btn-row">
+    <a class="btn btn-ink btn-sm" href="{{ url_for('monitor.report', slug=c.slug, aid=rep.audit.id) }}">View report</a>
+    <a class="btn btn-secondary btn-sm" href="{{ url_for('monitor.report', slug=c.slug, aid=rep.audit.id, download=1) }}">Download HTML</a>
+    <form method="post" action="{{ url_for('monitor.rescore', slug=c.slug, aid=rep.audit.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-secondary btn-sm" type="submit">Re-score with latest AI data</button></form>
+    <form method="post" action="{{ url_for('monitor.approve_audit', slug=c.slug, aid=rep.audit.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn btn-primary btn-sm" type="submit" {% if rep.draft_count %}disabled{% endif %}>Approve report</button></form>
+  </div>
+</div>
+<p class="small">CSV: {% for k in export_kinds %}<a href="{{ url_for('monitor.export', slug=c.slug, aid=rep.audit.id, kind=k) }}">{{ k }}</a>{% if not loop.last %} · {% endif %}{% endfor %}</p>
+
+<div class="kpis">
+  <div class="kpi"><div class="label">Diagnostic</div><div class="value">{{ s.normalized if s.normalized is not none else '—' }}<span class="muted small">/100</span></div><div class="sub">{{ s.awarded }} of {{ s.measured_possible }} measured points</div></div>
+  {% for key, d in s.dimensions.items() %}
+  <div class="kpi"><div class="label">{{ d.label }}</div>
+    {% if d.measured %}<div class="value">{{ d.awarded|round(1) }}<span class="muted small">/{{ d.possible }}</span></div>{% else %}<div class="value muted">n/m</div><div class="sub">not measured</div>{% endif %}</div>
+  {% endfor %}
+</div>
+
+<h2>Checks</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Code</th><th>Check</th><th class="num">Score</th><th>Evidence</th></tr></thead>
+  <tbody>{% for key, d in s.dimensions.items() %}{% for ch in d.checks %}
+  <tr><td class="mono">{{ ch.code }}</td><td>{{ ch.label }}</td>
+    <td class="num">{% if ch.measured %}{{ ch.awarded|round(2) }} / {{ ch.possible }}{% else %}n/m{% endif %}</td>
+    <td class="small">{{ ch.evidence }}{% if ch.urls %}<div class="url-list">{{ ch.urls|join('\n') }}</div>{% endif %}</td></tr>
+  {% endfor %}{% endfor %}</tbody>
+</table></div>
+
+<h2>Recommendations — review before delivery</h2>
+<div class="stack">
+{% for r in rep.recommendations %}
+<div class="card rec {{ r.review_status }}" id="rec-{{ r.id }}">
+  <div class="header-row"><strong>{{ r.priority }} · {{ r.title }}</strong>
+    <form class="inline-form" method="post" action="{{ url_for('monitor.review_recommendation', slug=c.slug, rid=r.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <span class="tag {{ 'tag-ok' if r.review_status == 'approved' else '' }}">{{ r.review_status }}</span>
+      <button class="btn btn-secondary btn-sm" name="review_status" value="approved">Approve</button>
+      <button class="btn btn-secondary btn-sm" name="review_status" value="rejected">Reject</button>
+      {% if r.review_status != 'draft' %}<button class="btn btn-secondary btn-sm" name="review_status" value="draft">Back to draft</button>{% endif %}
+    </form>
+  </div>
+  <dl>
+    <dt>Finding</dt><dd>{{ r.finding }}</dd>
+    <dt>Evidence</dt><dd>{{ r.evidence }}</dd>
+    <dt>Why it matters</dt><dd>{{ r.business_relevance }}</dd>
+    <dt>Action</dt><dd>{{ r.action }}</dd>
+    <dt>Effort</dt><dd>{{ r.effort }}</dd>
+    <dt>Expected outcome</dt><dd>{{ r.hypothesis }}</dd>
+  </dl>
+</div>
+{% else %}<p class="muted">No recommendations — every measured check passed.</p>{% endfor %}
+</div>
+{% if rejected %}<p class="small muted mt-5">{{ rejected|length }} rejected recommendation(s) are hidden from the report: {% for r in rejected %}<button form="unreject-{{ r.id }}" class="linkish">{{ r.title }}</button>{% if not loop.last %}, {% endif %}{% endfor %}</p>
+{% for r in rejected %}<form id="unreject-{{ r.id }}" method="post" action="{{ url_for('monitor.review_recommendation', slug=c.slug, rid=r.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="review_status" value="draft"></form>{% endfor %}{% endif %}
+{% endblock %}

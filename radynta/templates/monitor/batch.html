@@ -1,0 +1,33 @@
+{% extends "monitor/base.html" %}
+{% block title %}Batch #{{ b.id }} · {{ c.name }}{% endblock %}
+{% block content %}
+<p class="small"><a href="{{ url_for('monitor.client', slug=c.slug) }}">← {{ c.name }}</a></p>
+<h1>{{ b.platform }} · batch #{{ b.id }} {% if b.source == 'sample' %}<span class="tag tag-warn">SAMPLE — SYNTHETIC</span>{% endif %}</h1>
+<p class="muted small">Method: {{ b.source }}{% if b.model %} · model {{ b.model }}{% endif %} · {{ b.started_at }} UTC{% if b.notes %} · {{ b.notes }}{% endif %}</p>
+<div class="kpis">
+  <div class="kpi"><div class="label">Valid / total</div><div class="value">{{ m.valid_runs }}/{{ m.total_runs }}</div><div class="sub">{{ m.failed_runs }} failed (excluded)</div></div>
+  <div class="kpi"><div class="label">Brand mention rate</div><div class="value">{{ ((m.brand_mention_rate or 0)*100)|round|int if m.brand_mention_rate is not none else '—' }}{% if m.brand_mention_rate is not none %}%{% endif %}</div><div class="sub">{{ m.brand_mentions }} mentions · {{ m.ambiguous_mentions }} ambiguous</div></div>
+  <div class="kpi"><div class="label">Client citation rate</div><div class="value">{{ ((m.client_citation_rate or 0)*100)|round|int if m.client_citation_rate is not none else '—' }}{% if m.client_citation_rate is not none %}%{% endif %}</div><div class="sub">{{ m.client_citations }} responses cite the client domain</div></div>
+</div>
+<div class="grid grid-2">
+  <div><h2>Competitor mentions</h2><ul class="small">{% for x in m.competitor_mentions %}<li>{{ x.name }} — {{ x.count }} of {{ m.valid_runs }}</li>{% else %}<li class="muted">None</li>{% endfor %}</ul></div>
+  <div><h2>Most cited domains</h2><ul class="small">{% for x in m.cited_domains[:10] %}<li>{{ x.domain }} — {{ x.count }}</li>{% else %}<li class="muted">None</li>{% endfor %}</ul></div>
+</div>
+<h2>Responses</h2>
+<div class="stack">
+{% for r in responses %}
+<div class="card">
+  <div class="header-row"><strong>{{ r.prompt_text }}</strong>
+    <span>{% if r.status != 'ok' %}<span class="tag tag-bad">failed</span>{% elif r.brand_mentioned %}<span class="tag tag-ok">mentioned</span>{% else %}<span class="tag">not mentioned</span>{% endif %}
+      {% if r.mention_ambiguous %}<span class="tag tag-warn">ambiguous — review</span>{% endif %}</span></div>
+  {% if r.status != 'ok' %}<p class="small">Error: {{ r.error }}</p>{% else %}
+  {% if r.mention_context %}<p class="small"><em>{{ r.mention_context }}</em></p>{% endif %}
+  {% set comps = loads(r.competitor_mentions, []) %}{% if comps %}<p class="small">Competitors: {{ comps|map(attribute='name')|join(', ') }}</p>{% endif %}
+  <details><summary class="small">Raw answer</summary><div class="response-text">{{ r.raw_response }}</div></details>
+  {% if cits.get(r.id) %}<div class="url-list">{% for ci in cits[r.id] %}{{ '★ ' if ci.is_client_domain else '' }}{{ ci.url }} <span class="muted">({{ ci.origin }})</span><br>{% endfor %}</div>{% endif %}
+  {% endif %}
+  <p class="small muted mb-0">{{ r.collected_at }} UTC{% if r.market %} · market {{ r.market }}{% endif %}</p>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends "site/base.html" %}
+{# DRAFT legal text — have it reviewed by a qualified lawyer before launch. #}
+{% block content %}
+<section class="page-head"><div class="wrap">
+  <span class="eyebrow">Legal</span>
+  <h1>Privacy Policy</h1>
+  <p class="muted">Last updated: 27 October 2026</p>
+</div></section>
+<section class="band"><div class="wrap prose">
+  <p>This policy explains how RADYNTA (“we”, “us”) handles personal data collected through radynta.com. We aim to comply with India’s Digital Personal Data Protection Act, 2023 and related rules.</p>
+
+  <h2>What we collect</h2>
+  <ul>
+    <li><strong>Enquiry details you submit:</strong> name, business email and/or phone number, company name, website, logistics segment, target geography, business objective, any message you write, and your consent choice.</li>
+    <li><strong>Basic technical data:</strong> our hosting provider may record standard server logs (such as IP address, browser type and pages requested) for security and reliability. We don’t use advertising or cross-site tracking cookies.</li>
+    <li><strong>Session cookie:</strong> a strictly necessary cookie that protects our forms against forgery. It contains no personal profile.</li>
+  </ul>
+
+  <h2>Why we use it</h2>
+  <ul>
+    <li>To respond to your enquiry and, if you ask, to scope and deliver an audit or service.</li>
+    <li>To keep our website secure and prevent spam.</li>
+  </ul>
+  <p>We process enquiry data on the basis of the consent you give when submitting a form. We don’t sell your data or use it for unrelated marketing.</p>
+
+  <h2>Website audits</h2>
+  <p>When we audit a website, we review publicly available pages only. We don’t log in, submit forms or access private areas. Audit results are confidential to the client who commissioned them.</p>
+
+  <h2>Sharing</h2>
+  <p>We share data only with service providers needed to run our business (for example hosting and email), under appropriate confidentiality obligations, or when required by law.</p>
+
+  <h2>Retention</h2>
+  <p>Enquiries that don’t become engagements are deleted within 24 months. Client engagement records are kept for as long as needed for the engagement and for legal and accounting obligations.</p>
+
+  <h2>Your rights</h2>
+  <p>You can ask us to access, correct or erase your personal data, or withdraw your consent, at any time. Withdrawing consent doesn’t affect processing already carried out.{% if settings.contact_email %} Contact us at <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>.{% else %} Contact us through the <a href="{{ url_for('site.contact') }}">contact form</a>.{% endif %}</p>
+
+  <h2>Grievances</h2>
+  <p>If you have a concern about how we handle your data, contact us first and we will respond within a reasonable time. You may also have the right to complain to the Data Protection Board of India.</p>
+
+  <h2>Changes</h2>
+  <p>We may update this policy. The date at the top shows when it last changed.</p>
+</div></section>
+{% endblock %}

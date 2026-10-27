@@ -1,0 +1,44 @@
+{% extends "site/base.html" %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Service</span>
+    <h1>{{ svc.h1 }}</h1>
+    <p class="lede">{{ svc.intro }}</p>
+    <div class="btn-row"><a class="btn btn-primary" href="{{ url_for('site.audit_request') }}">Request a Logistics Visibility Audit</a></div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap two-col">
+    <div>
+      <h2>What’s involved</h2>
+      <div class="grid">
+        {% for title, text in svc.points %}
+        <div class="card"><h3>{{ title }}</h3><p>{{ text }}</p></div>
+        {% endfor %}
+      </div>
+      <div class="notice mt-6"><strong>Good to know.</strong> {{ svc.not_included }}</div>
+    </div>
+    <aside class="sticky">
+      <div class="card">
+        <h3>Relevant for</h3>
+        <ul class="small">
+          {% for islug, i in industries.items() %}<li><a href="{{ url_for('site.industry', slug=islug) }}">{{ i.nav }}</a></li>{% endfor %}
+        </ul>
+        <p class="small muted mb-0">See <a href="{{ url_for('site.services') }}#pricing">packages and pricing</a>.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section>
+  <div class="wrap two-col">
+    <div>
+      <h2>Questions about {{ svc.name }}</h2>
+      {% with faqs=svc.faqs %}{% include "partials/faq.html" %}{% endwith %}
+    </div>
+  </div>
+</section>
+{% include "partials/cta.html" %}
+{% endblock %}

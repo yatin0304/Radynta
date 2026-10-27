@@ -1,0 +1,25 @@
+{% macro bar(value, possible, measured=True) -%}
+{%- set pct = ((value / possible * 100) if (possible and measured) else 0)|round(1) -%}
+<svg class="barsvg" viewBox="0 0 100 8" preserveAspectRatio="none" role="img" aria-label="{{ 'not measured' if not measured else (value|round(1)) ~ ' of ' ~ possible }}">
+  <rect class="{{ 'bar-none' if not measured else 'bar-bg' }}" width="100" height="8" rx="2"/>
+  {% if measured %}<rect class="bar-fg" width="{{ pct }}" height="8" rx="2"/>{% endif %}
+</svg>
+{%- endmacro %}
+
+{% macro sev(s) -%}
+<span class="tag {{ {'high': 'tag-bad', 'medium': 'tag-warn', 'low': 'tag', 'info': 'tag'}[s] }}">{{ s }}</span>
+{%- endmacro %}
+
+{% macro field(name, label, errors, data, type="text", required=False, hint=None, autocomplete=None, placeholder=None, inputmode=None) -%}
+<div class="field{% if errors.get(name) %} has-error{% endif %}">
+  <label for="f-{{ name }}">{{ label }}{% if required %} <span class="req" aria-hidden="true">*</span>{% endif %}</label>
+  {% if hint %}<p class="hint" id="h-{{ name }}">{{ hint }}</p>{% endif %}
+  <input id="f-{{ name }}" name="{{ name }}" type="{{ type }}" value="{{ data.get(name, '') }}"
+         {% if required %}required aria-required="true"{% endif %}
+         {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+         {% if placeholder %}placeholder="{{ placeholder }}"{% endif %}
+         {% if inputmode %}inputmode="{{ inputmode }}"{% endif %}
+         {% if errors.get(name) %}aria-invalid="true" aria-describedby="e-{{ name }}"{% elif hint %}aria-describedby="h-{{ name }}"{% endif %}>
+  {% if errors.get(name) %}<p class="error" id="e-{{ name }}">{{ errors[name] }}</p>{% endif %}
+</div>
+{%- endmacro %}

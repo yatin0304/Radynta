@@ -1,0 +1,24 @@
+{% extends "site/base.html" %}
+{% block content %}
+<article>
+  <header class="page-head">
+    <div class="wrap">
+      <span class="eyebrow">Guide · <time datetime="{{ art.published }}">{{ art.published }}</time></span>
+      <h1>{{ art.title }}</h1>
+      <p class="lede">{{ art.description }}</p>
+    </div>
+  </header>
+  <section class="band">
+    <div class="wrap two-col">
+      <div class="prose">{% block body %}{% endblock %}</div>
+      <aside class="sticky">
+        <div class="card">
+          <h3>Want this applied to your site?</h3>
+          <p class="small">A Logistics Visibility Audit runs these checks on your website and tests your buyers’ questions.</p>
+          <a class="btn btn-primary" href="{{ url_for('site.audit_request') }}">Request an audit</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</article>
+{% endblock %}

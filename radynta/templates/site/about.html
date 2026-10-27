@@ -1,0 +1,36 @@
+{% extends "site/base.html" %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">About</span>
+    <h1>A focused agency for logistics visibility</h1>
+    <p class="lede">RADYNTA is an India-based, founder-led agency that helps logistics businesses become easier to find — in search engines and in the answers AI assistants give to buyers.</p>
+  </div>
+</section>
+<section class="band">
+  <div class="wrap two-col">
+    <div class="prose">
+      <h2>Why logistics, and why now</h2>
+      <p>Logistics is a relationship business, but the first step of many relationships has moved online. A plant manager looking for a new transporter, an exporter comparing forwarders, or a D2C brand shortlisting 3PLs will often search — or ask an AI assistant — before they pick up the phone.</p>
+      <p>Most logistics websites weren’t built for that. They describe services in a paragraph, leave out the lanes and facilities that buyers search for, and give AI systems little they can confidently repeat. That is a solvable problem.</p>
+      <h2>How we work</h2>
+      <p>Our approach comes from software quality engineering: define what you’re testing, measure it the same way every time, keep the raw evidence, and never report a result you can’t reproduce. In practice that means:</p>
+      <ul class="list-check">
+        <li>Every number in a report can be traced to the page, check or AI answer behind it.</li>
+        <li>We tell you what we couldn’t measure, rather than hiding it inside a score.</li>
+        <li>We don’t promise rankings or AI recommendations — no one honestly can.</li>
+        <li>Every recommendation is reviewed by a person before it reaches you.</li>
+      </ul>
+      <h2>Where we are today</h2>
+      <p>RADYNTA is a new agency. We don’t have case studies to show yet, and we won’t invent them. What we can offer is a clear, evidence-based audit at a fair price, and honest advice about whether ongoing work is worth it for your business.</p>
+    </div>
+    <aside class="sticky">
+      <div class="card">
+        <h3>Start with an audit</h3>
+        <p class="small">One-time, fixed scope, with a walkthrough call. You keep the report either way.</p>
+        <a class="btn btn-primary" href="{{ url_for('site.audit_request') }}">Request an audit</a>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

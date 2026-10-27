@@ -1,0 +1,197 @@
+{%- set s = rep.score -%}
+{%- set c = rep.client -%}
+{%- macro pct(v) %}{% if v is not none %}{{ (v*100)|round|int }}%{% else %}—{% endif %}{% endmacro -%}
+{%- macro bar(v, p, measured=True) -%}
+<svg class="bar" viewBox="0 0 100 8" preserveAspectRatio="none" aria-hidden="true"><rect width="100" height="8" rx="2" class="{{ 'bg' if measured else 'none' }}"/>{% if measured and p %}<rect width="{{ (v / p * 100)|round(1) }}" height="8" rx="2" class="fg"/>{% endif %}</svg>
+{%- endmacro -%}
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Logistics Visibility Audit — {{ c.name }} — {{ rep.generated_at }}</title>
+<style>
+  :root { --ink:#0f1d2b; --text:#24303d; --muted:#5b6876; --line:#dfddd5; --soft:#f3f1eb; --accent:#b4441b; --ok:#1f6f4a; --warn:#8a5a00; --bad:#b42318; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #e9e7e0; color: var(--text); font: 14px/1.55 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .doc { max-width: 900px; margin: 24px auto; background: #fff; padding: 48px 56px; box-shadow: 0 2px 16px rgba(0,0,0,.06); }
+  @media (max-width: 700px) { .doc { padding: 24px 16px; margin: 0; } }
+  h1, h2, h3 { color: var(--ink); line-height: 1.25; margin: 0 0 10px; font-weight: 600; }
+  h1 { font-size: 28px; } h2 { font-size: 19px; margin-top: 36px; padding-top: 16px; border-top: 2px solid var(--ink); } h3 { font-size: 15px; margin-top: 18px; }
+  p { margin: 0 0 10px; } ul, ol { margin: 0 0 12px; padding-left: 20px; } li { margin-bottom: 4px; }
+  .mono { font-family: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace; }
+  .muted { color: var(--muted); } .small { font-size: 12.5px; }
+  .brandline { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--line); padding-bottom: 14px; margin-bottom: 28px; }
+  .wordmark { font-weight: 600; letter-spacing: .18em; color: var(--ink); }
+  .banner { border: 2px solid var(--warn); background: #fbf0d9; color: #5c3d00; padding: 10px 14px; border-radius: 4px; margin-bottom: 18px; font-weight: 600; }
+  .banner.sample { border-color: var(--accent); background: #f7e7dd; color: #6e270c; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 13px; }
+  th, td { text-align: left; vertical-align: top; padding: 7px 8px; border-bottom: 1px solid var(--line); }
+  th { font-family: "IBM Plex Mono", ui-monospace, monospace; font-weight: 500; font-size: 11px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); background: var(--soft); }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  .score-wrap { display: grid; grid-template-columns: 200px 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 700px) { .score-wrap { grid-template-columns: 1fr; } }
+  .big { font: 600 54px/1 "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); }
+  .bar { display: block; width: 100%; height: 8px; margin: 3px 0 10px; }
+  .bar .bg { fill: #efede6; } .bar .fg { fill: #0f1d2b; } .bar .none { fill: #e4e1d8; }
+  .dimrow { display: flex; justify-content: space-between; gap: 12px; }
+  .tag { display: inline-block; font: 500 10.5px/1.6 "IBM Plex Mono", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .04em; padding: 0 6px; border-radius: 3px; background: var(--soft); }
+  .high { background: #fbe6e3; color: var(--bad); } .medium { background: #fbf0d9; color: var(--warn); } .low { background: var(--soft); } .ok { background: #e3f1e9; color: var(--ok); }
+  .rec { border: 1px solid var(--line); border-left: 4px solid var(--ink); border-radius: 4px; padding: 12px 14px; margin: 10px 0; page-break-inside: avoid; }
+  .rec.P1 { border-left-color: var(--bad); } .rec.P2 { border-left-color: var(--warn); }
+  .rec dl { display: grid; grid-template-columns: 140px 1fr; gap: 3px 12px; margin: 8px 0 0; }
+  .rec dt { color: var(--muted); font-size: 12.5px; } .rec dd { margin: 0; }
+  .urls { font: 11px/1.5 "IBM Plex Mono", ui-monospace, monospace; word-break: break-all; color: var(--muted); }
+  .quote { border-left: 3px solid var(--line); padding-left: 10px; color: var(--text); font-size: 12.5px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; } @media (max-width: 700px) { .grid2 { grid-template-columns: 1fr; } }
+  .footer { margin-top: 40px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 11.5px; color: var(--muted); }
+  @media print {
+    body { background: #fff; } .doc { box-shadow: none; margin: 0; max-width: none; padding: 0; }
+    h2 { page-break-after: avoid; } table, .rec { page-break-inside: avoid; }
+    @page { size: A4; margin: 16mm 14mm; }
+  }
+</style>
+</head>
+<body>
+<div class="doc">
+  <div class="brandline"><span class="wordmark">RADYNTA</span><span class="small muted mono">Logistics Visibility Audit · {{ rep.generated_at }}</span></div>
+
+  {% if rep.is_sample %}<div class="banner sample">SAMPLE REPORT — all data in this report is synthetic and describes a fictional business. It is not a real client result.</div>{% endif %}
+  {% if rep.is_draft %}<div class="banner">DRAFT — not yet reviewed by RADYNTA. {% if rep.draft_count %}{{ rep.draft_count }} recommendation(s) awaiting review. {% endif %}Do not share with the client.</div>{% endif %}
+
+  <h1>{{ c.name }}</h1>
+  <p class="muted">Logistics Visibility Audit</p>
+
+  <!-- 1 -->
+  <h2>1. Client details and audit date</h2>
+  <table>
+    <tr><th>Company</th><td>{{ c.name }}</td><th>Website</th><td>{{ c.website_url }}</td></tr>
+    <tr><th>Segment</th><td>{{ c.segment or '—' }}</td><th>Audit date</th><td>{{ rep.audit.started_at[:10] }}</td></tr>
+    <tr><th>Core services</th><td>{{ c.services|join(', ') or '—' }}</td><th>Target markets</th><td>{{ c.geographies|join(', ') or '—' }}</td></tr>
+  </table>
+
+  <!-- Executive summary -->
+  <h2>Summary</h2>
+  <div class="score-wrap">
+    <div>
+      <div class="small muted mono">DIAGNOSTIC SCORE</div>
+      <div class="big">{{ s.normalized if s.normalized is not none else '—' }}<span class="small muted"> / 100</span></div>
+      <p class="small muted">{{ s.awarded }} of {{ s.measured_possible }} measured points{% if s.measured_possible < 100 %}; {{ 100 - s.measured_possible }} framework points not measured{% endif %}.</p>
+      {% if rep.previous_score is not none %}<p class="small">Previous audit ({{ rep.previous_audit_date }}): <strong>{{ rep.previous_score }}</strong></p>{% endif %}
+    </div>
+    <div>
+      {% for key, d in s.dimensions.items() %}
+      <div class="dimrow small"><span>{{ d.label }}</span><span class="mono">{% if d.measured %}{{ d.awarded|round(1) }} / {{ d.possible }}{% else %}not measured{% endif %}</span></div>
+      {{ bar(d.awarded, d.possible, d.measured) }}
+      {% endfor %}
+    </div>
+  </div>
+  <p class="small muted">The diagnostic score is RADYNTA’s internal framework for prioritising work. It is not an official score or ranking from Google, ChatGPT, Gemini, Perplexity or any other platform.</p>
+  {% set top = rep.recommendations|selectattr('priority', 'equalto', 'P1')|list %}
+  {% if top %}<h3>Top priorities</h3><ol>{% for r in top[:5] %}<li>{{ r.title }}</li>{% endfor %}</ol>{% endif %}
+
+  <!-- 2 -->
+  <h2>2. Scope and methodology</h2>
+  <ul>
+    <li><strong>Website crawl:</strong> {{ rep.audit.pages_crawled }} public pages of {{ rep.audit.start_url }}, fetched politely with rate limits. robots.txt status {{ rep.audit.robots_status or 'n/a' }}; sitemap {{ rep.audit.sitemap_url or 'not found' }} ({{ rep.audit.sitemap_url_count if rep.audit.sitemap_url_count is not none else 'no' }} URLs).</li>
+    <li><strong>AI visibility:</strong> {% if rep.visibility %}{{ rep.visibility.valid_runs }} valid responses ({{ rep.visibility.failed_runs }} failed, excluded) across {{ rep.visibility.platforms|length }} platform(s).{% else %}not measured in this audit.{% endif %}</li>
+    <li><strong>Scoring:</strong> six dimensions — AI answer visibility (25), technical SEO (20), service and route relevance (20), trust (15), content quality (10), conversion readiness (10). Unmeasured checks are excluded from the total, not scored as zero.</li>
+    <li><strong>Review:</strong> every recommendation was reviewed by RADYNTA before delivery{% if rep.is_draft %} <em>(pending for this draft)</em>{% endif %}.</li>
+  </ul>
+
+  <!-- 3 -->
+  <h2>3. Platforms and questions tested</h2>
+  {% if rep.batches %}
+  <table><thead><tr><th>Platform</th><th>Collection method</th><th>Model</th><th>Date</th><th class="num">Valid / total</th></tr></thead><tbody>
+  {% for x in rep.batches %}<tr><td>{{ x.batch.platform }}</td><td>{{ {'api': 'Official API', 'manual': 'Manual capture in consumer app', 'sample': 'Synthetic sample data'}[x.batch.source] }}</td><td>{{ x.batch.model or '—' }}</td><td>{{ x.batch.started_at[:10] }}</td><td class="num">{{ x.metrics.valid_runs }} / {{ x.metrics.total_runs }}</td></tr>{% endfor %}
+  </tbody></table>
+  {% else %}<p class="muted">No AI platforms were tested for this audit.</p>{% endif %}
+  {% if rep.prompts %}<h3>Buyer questions ({{ rep.prompts|length }})</h3><ol class="small">{% for p in rep.prompts %}<li>{{ p.text }}{% if p.geography %} <span class="muted">· {{ p.geography }}</span>{% endif %}</li>{% endfor %}</ol>{% endif %}
+
+  <!-- 4 -->
+  <h2>4. AI visibility findings</h2>
+  {% if rep.visibility %}
+  <table><thead><tr><th>Platform</th><th class="num">Brand mention rate</th><th class="num">Client-domain citation rate</th><th class="num">Change vs previous</th></tr></thead><tbody>
+  {% for x in rep.batches %}<tr><td>{{ x.batch.platform }}</td>
+    <td class="num">{{ pct(x.metrics.brand_mention_rate) }} <span class="muted">({{ x.metrics.brand_mentions }}/{{ x.metrics.valid_runs }})</span></td>
+    <td class="num">{{ pct(x.metrics.client_citation_rate) }} <span class="muted">({{ x.metrics.client_citations }}/{{ x.metrics.valid_runs }})</span></td>
+    <td class="num">{% if x.delta and x.delta.brand_mention_rate is not none %}{{ '%+.1f'|format(x.delta.brand_mention_rate) }} pp mentions since {{ x.previous_date }}{% else %}first measurement{% endif %}</td></tr>{% endfor %}
+  </tbody></table>
+  <p class="small muted">A <em>mention</em> means the brand name appears in the answer; a <em>citation</em> means the client website was given as a source. Rates use valid responses only.</p>
+  {% set mentioned = rep.responses|selectattr('brand_mentioned', 'equalto', 1)|list %}
+  {% if mentioned %}<h3>Example mentions</h3>{% for r in mentioned[:3] %}<p class="quote"><strong>{{ r.platform }}:</strong> “{{ r.prompt_text }}”<br>{{ r.mention_context }}</p>{% endfor %}{% endif %}
+  {% else %}<p>AI answer visibility was <strong>not measured</strong> in this audit, so that dimension (25 points) is excluded from the score.</p>{% endif %}
+
+  <!-- 5 -->
+  <h2>5. Citation and competitor analysis</h2>
+  {% if rep.visibility %}
+  <div class="grid2">
+    <div><h3>Competitors mentioned</h3>
+      <table><thead><tr><th>Competitor</th><th class="num">Responses</th></tr></thead><tbody>
+      {% for x in rep.visibility.competitor_mentions %}<tr><td>{{ x.name }}</td><td class="num">{{ x.count }} ({{ pct(x.rate) }})</td></tr>{% else %}<tr><td colspan="2" class="muted">No configured competitors were mentioned.</td></tr>{% endfor %}
+      </tbody></table></div>
+    <div><h3>Most cited sources</h3>
+      <table><thead><tr><th>Domain</th><th class="num">Responses</th></tr></thead><tbody>
+      {% for x in rep.visibility.cited_domains[:10] %}<tr><td>{{ x.domain }}{% if x.domain == c.primary_domain %} <span class="tag ok">client</span>{% endif %}</td><td class="num">{{ x.count }}</td></tr>{% else %}<tr><td colspan="2" class="muted">No sources were cited.</td></tr>{% endfor %}
+      </tbody></table></div>
+  </div>
+  <p class="small muted">Domains cited instead of the client — directories, marketplaces, competitors — show where buyers and AI systems currently find logistics information for these questions.</p>
+  {% else %}<p class="muted">Not measured.</p>{% endif %}
+
+  {% macro dim_section(key) %}
+    {% set d = rep.score.dimensions[key] %}
+    <table><thead><tr><th>Check</th><th class="num">Score</th><th>Evidence</th></tr></thead><tbody>
+    {% for ch in d.checks %}<tr><td>{{ ch.label }}</td><td class="num">{% if ch.measured %}{{ ch.awarded|round(1) }} / {{ ch.possible }}{% else %}n/m{% endif %}</td>
+      <td class="small">{{ ch.evidence }}{% if ch.urls %}<div class="urls">{{ ch.urls[:5]|join(' · ') }}</div>{% endif %}</td></tr>{% endfor %}
+    </tbody></table>
+  {% endmacro %}
+
+  <!-- 6 -->
+  <h2>6. Technical website findings</h2>
+  {{ dim_section('technical') }}
+  <h3>Trust and business credibility</h3>
+  {{ dim_section('trust') }}
+  <h3>Content quality</h3>
+  {{ dim_section('content') }}
+
+  <!-- 7 -->
+  <h2>7. Logistics service and route page analysis</h2>
+  {{ dim_section('relevance') }}
+
+  <!-- 8 -->
+  <h2>8. Conversion-readiness findings</h2>
+  {{ dim_section('conversion') }}
+
+  <!-- 9 -->
+  <h2>9. Prioritised recommendations</h2>
+  {% for r in rep.recommendations %}
+  <div class="rec {{ r.priority }}">
+    <strong>{{ r.priority }} · {{ r.title }}</strong>{% if rep.is_draft %} <span class="tag">{{ r.review_status }}</span>{% endif %}
+    <dl>
+      <dt>Finding</dt><dd>{{ r.finding }}</dd>
+      <dt>Evidence</dt><dd class="small">{{ r.evidence }}</dd>
+      <dt>Why it matters</dt><dd>{{ r.business_relevance }}</dd>
+      <dt>Suggested action</dt><dd>{{ r.action }}</dd>
+      <dt>Effort</dt><dd>{{ r.effort }}</dd>
+      <dt>Expected outcome</dt><dd><em>Hypothesis:</em> {{ r.hypothesis }}</dd>
+    </dl>
+  </div>
+  {% else %}<p>No recommendations: all measured checks passed.</p>{% endfor %}
+
+  <!-- 10 -->
+  <h2>10. Measurement limitations</h2>
+  <ul class="small">{% for l in rep.limitations %}<li>{{ l }}</li>{% endfor %}</ul>
+
+  <!-- 11 -->
+  <h2>11. Suggested 30-day action plan</h2>
+  <table><thead><tr><th>When</th><th>Focus</th><th>Actions</th></tr></thead><tbody>
+  {% for w in rep.plan %}<tr><td class="mono">{{ w.week }}</td><td>{{ w.focus }}</td><td>{% if w['items'] %}<ul>{% for i in w['items'] %}<li>{{ i }}</li>{% endfor %}</ul>{% else %}<span class="muted">Buffer / carry-over</span>{% endif %}</td></tr>{% endfor %}
+  </tbody></table>
+
+  <div class="footer">
+    Prepared by RADYNTA · {{ settings.site_url if settings else 'https://radynta.com' }}{% if rep.audit.approved %} · Reviewed {{ rep.audit.approved_at }}{% endif %}<br>
+    This report reflects data collected on the dates shown. Search results and AI answers change over time. No ranking, citation or enquiry outcome is guaranteed.
+  </div>
+</div>
+</body>
+</html>

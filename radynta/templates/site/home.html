@@ -1,0 +1,163 @@
+{% extends "site/base.html" %}
+{% from "partials/macros.html" import bar %}
+{% block content %}
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Logistics AEO · Technical SEO · AI visibility</span>
+      <h1>Help Your Logistics Business Get Discovered in AI Search</h1>
+      <p class="lede">RADYNTA helps transporters, freight forwarders, warehouse operators and 3PL providers improve AI search visibility, strengthen their online presence and generate more qualified business enquiries.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="{{ url_for('site.audit_request') }}">Request a Logistics Visibility Audit</a>
+        <a class="btn btn-secondary" href="{{ url_for('site.services') }}">Explore Our Services</a>
+      </div>
+      <p class="hero-note">No guaranteed rankings. No invented results. Just evidence, priorities and honest measurement.</p>
+    </div>
+    <figure class="route-card" aria-labelledby="route-cap">
+      <div class="q">BUYER ASKS AN AI ASSISTANT</div>
+      <p class="answer"><strong>“Which transport companies provide full truckload services between Mumbai and Pune?”</strong></p>
+      <div class="q">WHAT WE CHECK IN THE ANSWER</div>
+      <ul class="list-check small mb-0">
+        <li>Is your company named?</li>
+        <li>Is your website cited as a source?</li>
+        <li>Which competitors and directories appear instead?</li>
+        <li>Does your site actually answer this question?</li>
+      </ul>
+      <figcaption id="route-cap" class="small muted mt-5">Illustrative example of one buyer question from an audit.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="who">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Who we help</span>
+      <h2 id="who">Built for the way logistics buyers search</h2>
+      <p class="lede">Each segment is found through different questions — lanes and vehicle types for transporters, trade lanes and modes for forwarders, facilities and integrations for 3PLs. We audit against the questions that matter to yours.</p>
+    </div>
+    <div class="grid grid-3">
+      {% for slug, i in industries.items() %}
+      <a class="card" href="{{ url_for('site.industry', slug=slug) }}">
+        <h3>{{ i.nav }}</h3>
+        <p class="muted small">“{{ i.buyer_questions[0] }}”</p>
+        <span class="more">How we help →</span>
+      </a>
+      {% endfor %}
+      <div class="card">
+        <h3>Industrial &amp; project cargo</h3>
+        <p class="muted small">Over-dimensional, heavy-lift and project logistics providers. Audits are scoped to your capabilities and markets.</p>
+        <a class="more" href="{{ url_for('site.contact') }}">Talk to us →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="what">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">What we do</span>
+      <h2 id="what">Three services, one goal: more qualified enquiries</h2>
+    </div>
+    <div class="grid grid-3">
+      {% for slug, s in services.items() %}
+      <a class="card" href="{{ url_for('site.service_detail', slug=slug) }}">
+        <span class="card-num">0{{ loop.index }}</span>
+        <h3>{{ s.name }}</h3>
+        <p>{{ s.short }}</p>
+        <span class="more">Learn more →</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="method">
+  <div class="wrap">
+    <div class="two-col">
+      <div>
+        <span class="eyebrow">Our audit methodology</span>
+        <h2 id="method">Six areas, scored on evidence</h2>
+        <p>Every audit uses the same internal 100-point diagnostic, so results are comparable over time. Each score links back to the specific pages, responses and checks behind it.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th class="num">Points</th></tr></thead>
+            <tbody>
+              <tr><td>AI answer visibility — mentions and citations across tested platforms</td><td class="num">25</td></tr>
+              <tr><td>Technical SEO and crawlability</td><td class="num">20</td></tr>
+              <tr><td>Service and route relevance</td><td class="num">20</td></tr>
+              <tr><td>Trust and business credibility</td><td class="num">15</td></tr>
+              <tr><td>Content quality</td><td class="num">10</td></tr>
+              <tr><td>Conversion readiness</td><td class="num">10</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted mt-5">This is RADYNTA’s internal framework for prioritising work — not an official Google, ChatGPT, Gemini or Perplexity score. Areas we cannot measure are marked “not measured”, never scored as zero.</p>
+      </div>
+      <aside class="sticky">
+        <div class="notice notice-accent">
+          <strong>What we will never do</strong>
+          <ul class="small mt-5 mb-0">
+            <li>Promise rankings or AI recommendations</li>
+            <li>Invent reviews, ratings or certifications in your markup</li>
+            <li>Mass-produce thin city pages</li>
+            <li>Count a failed test as “not mentioned”</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="process">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">How the process works</span>
+      <h2 id="process">From questions to a 30-day plan</h2>
+    </div>
+    <ol class="steps">
+      {% for title, text in steps %}<li><h3>{{ title }}</h3><p>{{ text }}</p></li>{% endfor %}
+    </ol>
+  </div>
+</section>
+
+<section class="band" aria-labelledby="sample">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Sample audit report</span>
+      <h2 id="sample">What the report looks like</h2>
+      <p>Below is a preview of the report layout using <strong>synthetic sample data</strong> for a fictional transporter. It is not a real client and not a real result.</p>
+    </div>
+    <div class="score-preview">
+      <header>
+        <span class="mono small">Sample Roadlines (fictional) · Sample report</span>
+        <span class="tag tag-warn">SAMPLE — SYNTHETIC DATA</span>
+      </header>
+      <div class="body">
+        <div>
+          <div class="mono small muted">Diagnostic score</div>
+          <div class="big-score">44<span class="muted small"> / 100</span></div>
+          <p class="small muted">Measured across 100 of 100 framework points in this sample.</p>
+        </div>
+        <div>
+          {% for label, v, p in [("AI answer visibility", 7.2, 25), ("Technical SEO and crawlability", 12.0, 20), ("Service and route relevance", 3.5, 20), ("Trust and business credibility", 10, 15), ("Content quality", 3.4, 10), ("Conversion readiness", 8, 10)] %}
+          <div class="bar-row"><span>{{ label }}</span><span class="mono">{{ v }} / {{ p }}</span>{{ bar(v, p) }}</div>
+          {% endfor %}
+          <p class="small muted mb-0">Each line in a real report expands into checks, evidence (URLs, quoted AI answers) and recommended actions with effort estimates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section aria-labelledby="faq">
+  <div class="wrap two-col">
+    <div>
+      <span class="eyebrow">Frequently asked questions</span>
+      <h2 id="faq">Straight answers</h2>
+      {% with open_first=True %}{% include "partials/faq.html" %}{% endwith %}
+    </div>
+  </div>
+</section>
+
+{% include "partials/cta.html" %}
+{% endblock %}

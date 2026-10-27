@@ -1,0 +1,22 @@
+{% extends "site/base.html" %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Resources</span>
+    <h1>Guides for logistics marketing and visibility</h1>
+    <p class="lede">Practical, specific articles for logistics owners and marketing teams. We publish when we have something useful to say — not to fill a calendar.</p>
+  </div>
+</section>
+<section class="band tight">
+  <div class="wrap grid grid-2">
+    {% for slug, a in articles.items() %}
+    <a class="card" href="{{ url_for('site.article', slug=slug) }}">
+      <span class="card-num"><time datetime="{{ a.published }}">{{ a.published }}</time></span>
+      <h2 class="h3">{{ a.title }}</h2>
+      <p>{{ a.description }}</p>
+      <span class="more">Read →</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

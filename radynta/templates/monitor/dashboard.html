@@ -1,0 +1,37 @@
+{% extends "monitor/base.html" %}
+{% block title %}Clients{% endblock %}
+{% block content %}
+<div class="header-row">
+  <h1>Clients</h1>
+  <a class="btn btn-secondary btn-sm" href="{{ url_for('monitor.enquiries', status='new') }}">{{ new_enquiries }} new enquir{{ 'y' if new_enquiries == 1 else 'ies' }}</a>
+</div>
+
+<div class="kpis">
+  {% for name, ok in providers.items() %}
+  <div class="kpi"><div class="label">{{ name }}</div><div class="sub">{% if ok %}<span class="tag tag-ok">configured</span>{% else %}<span class="tag tag-warn">not configured</span> — set keys in .env{% endif %}</div></div>
+  {% endfor %}
+  <div class="kpi"><div class="label">Enquiry email alerts</div><div class="sub">{% if email_configured %}<span class="tag tag-ok">configured</span>{% else %}<span class="tag tag-warn">off</span> — enquiries are stored here only{% endif %}</div></div>
+</div>
+
+{% if not clients %}
+<div class="notice">No clients yet. Add one with <code>flask --app radynta add-client data/sample_client.json</code> or load the labelled sample with <code>flask --app radynta seed-sample</code>.</div>
+{% else %}
+<div class="table-wrap"><table>
+  <thead><tr><th>Client</th><th>Website</th><th class="num">Diagnostic</th><th>Last audit</th><th class="num">Prompts</th><th class="num">Mention rate</th><th class="num">Citation rate</th><th>Last AI batch</th></tr></thead>
+  <tbody>
+  {% for row in clients %}
+    <tr>
+      <td><a href="{{ url_for('monitor.client', slug=row.c.slug) }}"><strong>{{ row.c.name }}</strong></a> {% if row.c.is_sample %}<span class="tag tag-warn">SAMPLE</span>{% endif %}</td>
+      <td class="small">{{ row.c.primary_domain }}</td>
+      <td class="num">{% if row.score is not none %}{{ row.score }}<span class="muted">/100</span>{% else %}—{% endif %}</td>
+      <td class="small">{% if row.audit %}{{ row.audit.started_at[:10] }} <span class="tag">{{ row.audit.status }}</span>{% else %}never{% endif %}</td>
+      <td class="num">{{ row.prompts }}</td>
+      <td class="num">{% if row.metrics and row.metrics.brand_mention_rate is not none %}{{ (row.metrics.brand_mention_rate*100)|round|int }}% <span class="muted small">n={{ row.metrics.valid_runs }}</span>{% else %}—{% endif %}</td>
+      <td class="num">{% if row.metrics and row.metrics.client_citation_rate is not none %}{{ (row.metrics.client_citation_rate*100)|round|int }}%{% else %}—{% endif %}</td>
+      <td class="small">{% if row.batch %}{{ row.batch.platform }} · {{ row.batch.started_at[:10] }}{% else %}none{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+{% endif %}
+{% endblock %}

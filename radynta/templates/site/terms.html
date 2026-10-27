@@ -1,0 +1,37 @@
+{% extends "site/base.html" %}
+{# DRAFT legal text — have it reviewed by a qualified lawyer before launch. #}
+{% block content %}
+<section class="page-head"><div class="wrap">
+  <span class="eyebrow">Legal</span>
+  <h1>Terms of Service</h1>
+  <p class="muted">Last updated: 27 October 2026</p>
+</div></section>
+<section class="band"><div class="wrap prose">
+  <h2>1. About these terms</h2>
+  <p>These terms govern your use of radynta.com. Paid services are governed by a separate written proposal or agreement, which takes precedence over these terms where they differ.</p>
+
+  <h2>2. No guarantees of rankings or AI visibility</h2>
+  <p>Search engine rankings and the answers produced by AI systems are controlled by third parties and change frequently. RADYNTA does not guarantee any ranking, traffic level, enquiry volume, or that any AI system will mention, recommend or cite your business. Expected outcomes we describe are hypotheses based on our analysis, not promises.</p>
+
+  <h2>3. Our diagnostic score</h2>
+  <p>Scores in RADYNTA reports are produced by our internal framework. They are not official scores, ratings or rankings from Google, OpenAI, Perplexity, Microsoft or any other platform.</p>
+
+  <h2>4. Website content</h2>
+  <p>Content on this website is general information, not professional, legal or financial advice. Indicative prices are subject to confirmation in a written proposal and exclude applicable taxes.</p>
+
+  <h2>5. Acceptable use</h2>
+  <p>You must not misuse this website, including attempting to gain unauthorised access, submitting automated or false enquiries, or interfering with its operation.</p>
+
+  <h2>6. Intellectual property</h2>
+  <p>The website design, text and RADYNTA name are our property. Reports we deliver may be used by the client for its own business purposes as set out in the engagement agreement.</p>
+
+  <h2>7. Liability</h2>
+  <p>To the extent permitted by law, we are not liable for indirect or consequential losses arising from use of this website. Nothing in these terms limits liability that cannot be limited by law.</p>
+
+  <h2>8. Governing law</h2>
+  <p>These terms are governed by the laws of India. Courts in India have jurisdiction over any dispute.</p>
+
+  <h2>9. Contact</h2>
+  <p>Questions about these terms: {% if settings.contact_email %}<a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>{% else %}use our <a href="{{ url_for('site.contact') }}">contact form</a>{% endif %}.</p>
+</div></section>
+{% endblock %}

@@ -1,0 +1,13 @@
+text,geography,service_category,target_customer
+Which transport companies provide full truckload services between Mumbai and Pune?,Mumbai–Pune,full truckload,manufacturers
+Who offers part load transport from Delhi to Jaipur?,Delhi–Jaipur,part load,SMEs
+Which freight forwarders handle sea freight exports from India to the UAE?,India–UAE,sea freight,exporters
+Who offers LCL consolidation from Nhava Sheva to Europe?,Nhava Sheva–Europe,LCL consolidation,exporters
+Which customs brokers handle import clearance at Chennai port?,Chennai,customs clearance,importers
+Which 3PL providers offer warehousing and distribution in Maharashtra?,Maharashtra,warehousing,FMCG brands
+Shared warehousing near Bhiwandi for an FMCG brand?,Bhiwandi,warehousing,FMCG brands
+Which logistics companies provide e-commerce fulfillment in India?,India,e-commerce fulfilment,D2C brands
+Courier partner with fast COD remittance for small online sellers?,India,courier,online sellers
+Which logistics companies specialize in temperature-controlled transport?,India,cold chain,food and pharma companies
+Reefer trucks for frozen food from Nashik to Mumbai?,Nashik–Mumbai,cold chain,food processors
+Who handles over-dimensional project cargo transport in Gujarat?,Gujarat,project cargo,EPC contractors

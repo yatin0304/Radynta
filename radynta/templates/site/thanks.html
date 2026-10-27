@@ -1,0 +1,12 @@
+{% extends "site/base.html" %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap prose">
+    <span class="eyebrow">Received</span>
+    <h1>Thank you — we’ve received your {{ 'audit request' if kind == 'audit' else 'message' }}</h1>
+    <p class="lede">Your details have been saved securely. A member of the RADYNTA team will reply within two working days using the email or phone number you provided.</p>
+    <p class="muted">We don’t send automatic confirmation emails yet, so you won’t receive one — that’s expected.</p>
+    <div class="btn-row"><a class="btn btn-secondary" href="{{ url_for('site.resources') }}">Read our guides</a><a class="btn btn-secondary" href="{{ url_for('site.home') }}">Back to home</a></div>
+  </div>
+</section>
+{% endblock %}

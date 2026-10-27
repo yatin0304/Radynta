@@ -1,0 +1,47 @@
+{% extends "site/base.html" %}
+{% from "partials/macros.html" import field %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Contact</span>
+    <h1>Talk to RADYNTA</h1>
+    <p class="lede">Questions about our services, pricing or whether an audit makes sense for you? Send a message.{% if settings.contact_email %} You can also email <a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a>.{% endif %}</p>
+  </div>
+</section>
+<section class="band">
+  <div class="wrap two-col">
+    <form class="form" method="post" action="{{ url_for('site.contact') }}" novalidate>
+      {% if errors %}<div class="notice notice-bad" role="alert"><strong>Please check the highlighted fields.</strong>{% if errors.get('_form') %}<p class="mb-0">{{ errors['_form'] }}</p>{% endif %}</div>{% endif %}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="form_ts" value="{{ form_timer_token() }}">
+      <div class="hp" aria-hidden="true"><label for="f-hp">Leave this field empty</label><input id="f-hp" name="company_website" tabindex="-1" autocomplete="off"></div>
+      <div class="form-row">
+        {{ field("name", "Your name", errors, data, required=True, autocomplete="name") }}
+        {{ field("company", "Company", errors, data, autocomplete="organization") }}
+      </div>
+      <div class="form-row">
+        {{ field("email", "Email", errors, data, type="email", autocomplete="email", hint="Email or phone — at least one.") }}
+        {{ field("phone", "Phone / WhatsApp", errors, data, type="tel", autocomplete="tel", inputmode="tel") }}
+      </div>
+      <div class="field{% if errors.get('message') %} has-error{% endif %}">
+        <label for="f-message">Message <span class="req" aria-hidden="true">*</span></label>
+        <textarea id="f-message" name="message" required maxlength="4000" {% if errors.get('message') %}aria-invalid="true" aria-describedby="e-message"{% endif %}>{{ data.get('message', '') }}</textarea>
+        {% if errors.get('message') %}<p class="error" id="e-message">{{ errors['message'] }}</p>{% endif %}
+      </div>
+      <div class="field{% if errors.get('consent') %} has-error{% endif %}">
+        <label class="check"><input type="checkbox" name="consent" value="yes" {% if data.get('consent') %}checked{% endif %} required>
+          <span>I agree that RADYNTA may store these details and reply to me, as described in the <a href="{{ url_for('site.privacy') }}">Privacy Policy</a>. <span class="req" aria-hidden="true">*</span></span></label>
+        {% if errors.get('consent') %}<p class="error">{{ errors['consent'] }}</p>{% endif %}
+      </div>
+      <div><button class="btn btn-primary" type="submit">Send message</button></div>
+    </form>
+    <aside class="sticky">
+      <div class="card">
+        <h3>Prefer a structured start?</h3>
+        <p class="small">The audit request form captures everything we need to scope your audit.</p>
+        <a class="btn btn-secondary" href="{{ url_for('site.audit_request') }}">Request an audit</a>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

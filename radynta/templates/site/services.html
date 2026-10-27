@@ -1,0 +1,61 @@
+{% extends "site/base.html" %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Services</span>
+    <h1>Visibility work for logistics companies, done properly</h1>
+    <p class="lede">We combine technical SEO, answer-engine optimisation and ongoing measurement. You can start with a one-time audit and decide afterwards whether ongoing work makes sense.</p>
+  </div>
+</section>
+
+<section class="band tight">
+  <div class="wrap grid grid-3">
+    {% for slug, s in services.items() %}
+    <a class="card" href="{{ url_for('site.service_detail', slug=slug) }}">
+      <span class="card-num">0{{ loop.index }}</span>
+      <h2 class="h3">{{ s.name }}</h2>
+      <p>{{ s.short }}</p>
+      <span class="more">Details →</span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section id="pricing" aria-labelledby="pricing-h">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Packages</span>
+      <h2 id="pricing-h">Indicative pricing</h2>
+      <p>Transparent starting points for small and mid-sized logistics businesses. We confirm scope after a short call, so you only pay for what fits your business.</p>
+    </div>
+    <div class="grid grid-3">
+      {% for p in packages %}
+      <div class="card price-card">
+        <h3>{{ p.name }}</h3>
+        <p class="price">{{ p.price }}</p>
+        <p class="small muted">{{ p.cadence }} · {{ p.for }}</p>
+        <ul class="list-check small">{% for item in p['items'] %}<li>{{ item }}</li>{% endfor %}</ul>
+        <a class="btn {{ 'btn-primary' if loop.first else 'btn-secondary' }}" href="{{ url_for('site.audit_request') }}">{{ 'Request an audit' if loop.first else 'Discuss this plan' }}</a>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="small muted mt-5">{{ exclusions }}</p>
+  </div>
+</section>
+
+<section class="band tight">
+  <div class="wrap two-col">
+    <div class="prose">
+      <h2>What every engagement includes</h2>
+      <ul class="list-check">
+        <li>A buyer-question library agreed with you before anything is measured</li>
+        <li>Raw evidence for every finding: URLs, page data and AI answers stored verbatim</li>
+        <li>Recommendations with the finding, evidence, business relevance, priority, effort and expected outcome</li>
+        <li>Clear separation of what we measured, what we couldn’t, and why</li>
+        <li>Human review of every recommendation before it reaches you</li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% include "partials/cta.html" %}
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "monitor/base.html" %}
+{% block title %}{{ c.name }}{% endblock %}
+{% macro pct(v) %}{% if v is not none %}{{ (v*100)|round|int }}%{% else %}—{% endif %}{% endmacro %}
+{% macro delta(v) %}{% if v is not none %}<span class="small {{ 'tag-ok' if v > 0 else ('tag-bad' if v < 0 else '') }} tag">{{ '+' if v > 0 else '' }}{{ v }} pp</span>{% endif %}{% endmacro %}
+{% block content %}
+<p class="small"><a href="{{ url_for('monitor.dashboard') }}">← Clients</a></p>
+<div class="header-row">
+  <div>
+    <h1>{{ c.name }} {% if c.is_sample %}<span class="tag tag-warn">SAMPLE — SYNTHETIC DATA</span>{% endif %}</h1>
+    <p class="muted">{{ c.website_url }} · brand “{{ cfg.brand_name }}”{% if cfg.brand_aliases %} (aliases: {{ cfg.brand_aliases|join(', ') }}){% endif %} · {{ c.segment or 'segment not set' }}</p>
+  </div>
+  <form class="inline-form" method="post" action="{{ url_for('monitor.start_audit', slug=c.slug) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label class="small" for="mp">Max pages</label><input id="mp" name="max_pages" type="number" min="1" max="200" value="{{ settings.audit_max_pages }}" size="4">
+    <button class="btn btn-ink btn-sm" type="submit" {% if c.is_sample %}disabled title="Sample clients use synthetic data"{% endif %}>Run website audit</button>
+  </form>
+</div>
+
+<div class="grid grid-3">
+  <div class="card"><h3>Services</h3><p class="small">{{ cfg.services|join(', ') or 'None configured — relevance checks will be marked not measured.' }}</p></div>
+  <div class="card"><h3>Geographies & routes</h3><p class="small">{{ cfg.geographies|join(', ') or 'None configured.' }}</p></div>
+  <div class="card"><h3>Competitors</h3><p class="small">{% for x in cfg.competitors %}{{ x.name }}{% if x.domain %} ({{ x.domain }}){% endif %}{% if not loop.last %}, {% endif %}{% else %}None configured.{% endfor %}</p></div>
+</div>
+
+<h2>Website audits</h2>
+{% if audits %}
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Started</th><th>Status</th><th class="num">Pages</th><th class="num">Diagnostic</th><th>Review</th><th></th></tr></thead>
+  <tbody>{% for a in audits %}
+  <tr><td>{{ a.id }}</td><td class="small">{{ a.started_at }}</td><td><span class="tag {{ 'tag-ok' if a.status == 'completed' else ('tag-bad' if a.status == 'failed' else 'tag-warn') }}">{{ a.status }}</span>{% if a.error %}<div class="small muted">{{ a.error[:160] }}</div>{% endif %}</td>
+    <td class="num">{{ a.pages_crawled }}</td><td class="num">{{ a.score if a.score is not none else '—' }}</td>
+    <td>{% if a.approved %}<span class="tag tag-ok">approved</span>{% else %}<span class="tag">draft</span>{% endif %}</td>
+    <td>{% if a.status == 'completed' %}<a href="{{ url_for('monitor.audit', slug=c.slug, aid=a.id) }}">Open</a>{% endif %}</td></tr>
+  {% endfor %}</tbody>
+</table></div>
+{% else %}<p class="muted">No audits yet.</p>{% endif %}
+
+<h2>AI visibility batches</h2>
+<p class="small muted">Run with <code>flask --app radynta run-visibility {{ c.slug }} --provider perplexity</code> or import manual captures with <code>flask --app radynta import-responses {{ c.slug }} file.csv</code>. Rates use valid responses only.</p>
+{% if batches %}
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Date</th><th>Platform</th><th>Method</th><th class="num">Valid / total</th><th class="num">Mention rate</th><th class="num">Citation rate</th><th>Top competitor</th><th></th></tr></thead>
+  <tbody>{% for x in batches %}
+  <tr><td>{{ x.b.id }}</td><td class="small">{{ x.b.started_at[:16] }}</td><td>{{ x.b.platform }}{% if x.b.model %}<div class="small muted">{{ x.b.model }}</div>{% endif %}</td>
+    <td><span class="tag {{ 'tag-warn' if x.b.source == 'sample' else '' }}">{{ x.b.source }}</span></td>
+    <td class="num">{{ x.m.valid_runs }} / {{ x.m.total_runs }}{% if x.m.failed_runs %}<div class="small muted">{{ x.m.failed_runs }} failed</div>{% endif %}</td>
+    <td class="num">{{ pct(x.m.brand_mention_rate) }} {{ delta(x.delta.brand_mention_rate) if x.delta }}</td>
+    <td class="num">{{ pct(x.m.client_citation_rate) }} {{ delta(x.delta.client_citation_rate) if x.delta }}</td>
+    <td class="small">{% if x.m.competitor_mentions %}{{ x.m.competitor_mentions[0].name }} ({{ x.m.competitor_mentions[0].count }}){% else %}—{% endif %}</td>
+    <td><a href="{{ url_for('monitor.batch', slug=c.slug, bid=x.b.id) }}">Responses</a></td></tr>
+  {% endfor %}</tbody>
+</table></div>
+{% else %}<p class="muted">No AI visibility data yet.</p>{% endif %}
+
+<h2>Prompt library ({{ prompts|length }})</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Question</th><th>Service</th><th>Geography</th><th>Target customer</th><th>Active</th></tr></thead>
+  <tbody>{% for p in prompts %}<tr><td>{{ p.text }}</td><td class="small">{{ p.service_category or '' }}</td><td class="small">{{ p.geography or '' }}</td><td class="small">{{ p.target_customer or '' }}</td><td>{{ 'yes' if p.active else 'no' }}</td></tr>
+  {% else %}<tr><td colspan="5" class="muted">No prompts. Import with <code>flask --app radynta import-prompts {{ c.slug }} data/prompts.csv</code></td></tr>{% endfor %}</tbody>
+</table></div>
+{% endblock %}

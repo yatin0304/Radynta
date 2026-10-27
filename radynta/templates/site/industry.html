@@ -1,0 +1,52 @@
+{% extends "site/base.html" %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Industry · {{ ind.name }}</span>
+    <h1>{{ ind.h1 }}</h1>
+    <p class="lede">{{ ind.intro }}</p>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="{{ url_for('site.audit_request') }}">Request a Logistics Visibility Audit</a>
+      <a class="btn btn-secondary" href="{{ url_for('site.services') }}">Explore Our Services</a>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap grid grid-2">
+    <div>
+      <h2>Questions your buyers are asking</h2>
+      <p class="muted">Examples of the kinds of questions we test for {{ ind.name|lower }} businesses. In an audit, we agree the exact questions with you.</p>
+      <ul class="list-check">{% for q in ind.buyer_questions %}<li>“{{ q }}”</li>{% endfor %}</ul>
+    </div>
+    <div>
+      <h2>Gaps we often look for</h2>
+      <p class="muted">Common reasons a {{ ind.name|lower }} website is hard for buyers and AI systems to understand. Your audit will show which, if any, apply to you.</p>
+      <ul class="list-gap">{% for g in ind.gaps %}<li>{{ g }}</li>{% endfor %}</ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap two-col">
+    <div class="prose">
+      <h2>What the audit focuses on for {{ ind.name|lower }}</h2>
+      <ul class="list-check">{% for a in ind.audit_focus %}<li>{{ a }}</li>{% endfor %}</ul>
+      <h2>Content that tends to answer buyer questions</h2>
+      <ul>{% for c in ind.content_ideas %}<li>{{ c }}</li>{% endfor %}</ul>
+      <p class="small muted">We only recommend pages backed by real operations, real coverage and facts you can confirm.</p>
+      <h2>Questions</h2>
+      {% with faqs=ind.faqs %}{% include "partials/faq.html" %}{% endwith %}
+    </div>
+    <aside class="sticky">
+      <div class="card">
+        <h3>Related services</h3>
+        <ul class="small">{% for sslug, s in services.items() %}<li><a href="{{ url_for('site.service_detail', slug=sslug) }}">{{ s.name }}</a></li>{% endfor %}</ul>
+        <h3 class="mt-5">Other segments</h3>
+        <ul class="small mb-0">{% for oslug, o in others.items() %}<li><a href="{{ url_for('site.industry', slug=oslug) }}">{{ o.name }}</a></li>{% endfor %}</ul>
+      </div>
+    </aside>
+  </div>
+</section>
+{% with cta_title="Find out what buyers see when they search for " ~ ind.name|lower %}{% include "partials/cta.html" %}{% endwith %}
+{% endblock %}

@@ -1,0 +1,19 @@
+﻿severity,dimension,code,title,evidence,example_urls,status
+high,ai_visibility,A2,Client website cited as a source,"22% of 9 valid responses (sample-platform-a, sample-platform-b) (Limitation: Small samples; AI answers vary between runs, locations and accounts.)",,open
+high,content,C3,Question-and-answer content buyers can quote,No page with 3+ question headings or FAQPage markup,,open
+high,trust,R6,"Business identity signals (GSTIN, privacy policy)",GSTIN shown: no; privacy policy: no,,open
+high,relevance,S1,Configured services appear in titles/H1s,full truckload: body text only; part load: body text only; container transport: not found; ODC transport: not found,,open
+high,relevance,S2,Dedicated pages for each core service,"0 of 4 services have a dedicated page; missing: full truckload, part load, container transport, ODC transport",,open
+high,relevance,S3,"Target cities, states and routes covered",Mumbai: body text only; Pune: body text only; Nashik: not found; Gujarat: not found,,open
+medium,ai_visibility,A1,Brand mentioned in AI answers,"33% of 9 valid responses (sample-platform-a, sample-platform-b) (Limitation: Small samples; AI answers vary between runs, locations and accounts.)",,open
+medium,content,C1,Pages with substantive content (250+ words),3 of 5 pages have fewer than 250 words of visible text (Limitation: Word count is a proxy; it does not measure accuracy or usefulness.),https://www.sample-roadlines.example/contact/ https://www.sample-roadlines.example/fleet/ https://www.sample-roadlines.example/services/,open
+medium,trust,R5,Organization / LocalBusiness structured data,No Organization or LocalBusiness JSON-LD detected,,open
+medium,relevance,S4,Homepage states what the company does,Homepage title/H1: “sample roadlines welcome to sample roadlines” — no service term found,,open
+medium,technical,T3,XML sitemap available,"No sitemap found (checked https://www.sample-roadlines.example/sitemap.xml, status 404)",,open
+medium,technical,T6,Unique meta descriptions,"4 of 5 pages have a missing, poorly sized (outside 50–170 chars) or duplicated meta description",https://www.sample-roadlines.example/ https://www.sample-roadlines.example/contact/ https://www.sample-roadlines.example/fleet/ https://www.sample-roadlines.example/services/,open
+medium,technical,T8,Self-referencing canonical URLs,"4 of 5 pages lack a canonical tag, point it to another domain, or point it to a different URL; 4 inner page(s) declare the HOMEPAGE as canonical, which asks search engines to ignore them (Limitation: A canonical pointing elsewhere can be intentional for duplicate pages; confirm before changing.)",https://www.sample-roadlines.example/about-us/ https://www.sample-roadlines.example/contact/ https://www.sample-roadlines.example/fleet/ https://www.sample-roadlines.example/services/,open
+medium,technical,T9,No broken internal pages among crawled URLs,1 of 6 crawled internal URLs returned an error (4xx/5xx or fetch failure) (Limitation: Only crawled URLs were checked; internal URLs beyond the page limit were not tested.),https://www.sample-roadlines.example/old-rates/,open
+medium,conversion,V2,WhatsApp contact link,No WhatsApp link detected,,open
+low,content,C2,"Clear heading structure (2+ H2s, no skipped levels)",3 of 5 pages have at least two H2 sections without skipped heading levels,,open
+low,technical,T5,"Unique, well-sized page titles","2 of 5 pages have a missing, too short/long (outside 10–65 chars) or duplicated title; 1 duplicated title text(s)",https://www.sample-roadlines.example/fleet/ https://www.sample-roadlines.example/services/,open
+low,technical,T7,Exactly one H1 per page,1 of 5 pages have zero or multiple H1 headings,https://www.sample-roadlines.example/fleet/,open

@@ -1,0 +1,7 @@
+﻿url,final_url,status,title,meta_description,h1_count,canonical,noindex,word_count,schema_types,error
+https://www.sample-roadlines.example/,https://www.sample-roadlines.example/,200,Sample Roadlines,,1,https://www.sample-roadlines.example/,False,407,,
+https://www.sample-roadlines.example/about-us/,https://www.sample-roadlines.example/about-us/,200,About Us | Sample Roadlines,Sample Roadlines is a fictional transport company used to demonstrate RADYNTA audit reports.,1,https://www.sample-roadlines.example/,False,452,,
+https://www.sample-roadlines.example/contact/,https://www.sample-roadlines.example/contact/,200,Contact | Sample Roadlines,,1,https://www.sample-roadlines.example/,False,24,,
+https://www.sample-roadlines.example/fleet/,https://www.sample-roadlines.example/fleet/,200,Services | Sample Roadlines,"Full truckload, part load and container transport services from Sample Roadlines for shippers in Maharashtra.",2,https://www.sample-roadlines.example/,False,22,,
+https://www.sample-roadlines.example/services/,https://www.sample-roadlines.example/services/,200,Services | Sample Roadlines,"Full truckload, part load and container transport services from Sample Roadlines for shippers in Maharashtra.",1,https://www.sample-roadlines.example/,False,35,,
+https://www.sample-roadlines.example/old-rates/,https://www.sample-roadlines.example/old-rates/,404,,,0,,,,,

@@ -1,0 +1,26 @@
+/* Internal monitor: denser layout on the same tokens */
+body.monitor { font-size: 15px; }
+.mmain { padding-top: var(--s5); padding-bottom: var(--s8); }
+.mmain h1 { font-size: 1.6rem; }
+.mmain h2 { font-size: 1.2rem; margin-top: var(--s6); }
+.mnav { display: flex; gap: var(--s4); align-items: center; font-size: .92rem; }
+.mnav a { color: var(--text); text-decoration: none; }
+.mnav form { margin: 0; }
+.linkish { background: none; border: 0; padding: 0; font: inherit; color: var(--accent-ink); cursor: pointer; text-decoration: underline; }
+.kpis { display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin: var(--s4) 0; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: var(--s4); }
+.kpi .label { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+.kpi .value { font: 600 1.6rem/1.2 var(--font-mono); color: var(--ink); }
+.kpi .sub { font-size: .82rem; color: var(--muted); }
+.inline-form { display: inline-flex; gap: var(--s2); align-items: center; margin: 0; flex-wrap: wrap; }
+.inline-form select, .inline-form input { font: inherit; padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 4px; background: #fff; }
+.response-text { white-space: pre-wrap; font-size: .88rem; max-height: 260px; overflow: auto; background: var(--surface-2); padding: var(--s3); border-radius: 4px; }
+.rec { border-left: 3px solid var(--line-strong); }
+.rec.approved { border-left-color: var(--ok); }
+.rec dl { display: grid; grid-template-columns: 150px 1fr; gap: var(--s1) var(--s4); margin: var(--s3) 0; font-size: .9rem; }
+.rec dt { color: var(--muted); }
+.rec dd { margin: 0; }
+.header-row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s3); align-items: flex-start; }
+.url-list { font-family: var(--font-mono); font-size: .78rem; word-break: break-all; margin: var(--s2) 0 0; }
+.stack > * + * { margin-top: var(--s3); }
+.login-card { max-width: 420px; margin: var(--s7) auto; }

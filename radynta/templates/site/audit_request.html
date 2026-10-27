@@ -1,0 +1,77 @@
+{% extends "site/base.html" %}
+{% from "partials/macros.html" import field %}
+{% block content %}
+<section class="page-head">
+  <div class="wrap">
+    <span class="eyebrow">Logistics Visibility Audit</span>
+    <h1>Request an audit</h1>
+    <p class="lede">Tell us about your business. We’ll reply within two working days to confirm scope and the buyer questions to test. There’s no obligation to proceed.</p>
+  </div>
+</section>
+<section class="band">
+  <div class="wrap two-col">
+    <form class="form" method="post" action="{{ url_for('site.audit_request') }}" novalidate>
+      {% if errors %}
+      <div class="notice notice-bad" role="alert" aria-live="assertive">
+        <strong>Please check the highlighted fields.</strong>
+        {% if errors.get('_form') %}<p class="mb-0">{{ errors['_form'] }}</p>{% endif %}
+      </div>
+      {% endif %}
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <input type="hidden" name="form_ts" value="{{ form_timer_token() }}">
+      <div class="hp" aria-hidden="true"><label for="f-hp">Leave this field empty</label><input id="f-hp" name="company_website" tabindex="-1" autocomplete="off"></div>
+
+      <div class="form-row">
+        {{ field("name", "Your name", errors, data, required=True, autocomplete="name") }}
+        {{ field("company", "Company name", errors, data, required=True, autocomplete="organization") }}
+      </div>
+      <div class="form-row">
+        {{ field("email", "Business email", errors, data, type="email", autocomplete="email", hint="Email or phone — at least one.") }}
+        {{ field("phone", "Phone / WhatsApp", errors, data, type="tel", autocomplete="tel", inputmode="tel", placeholder="+91") }}
+      </div>
+      {{ field("website", "Company website", errors, data, type="text", inputmode="url", placeholder="yourcompany.com", hint="Leave blank if you don’t have one yet.") }}
+      <div class="form-row">
+        <div class="field{% if errors.get('segment') %} has-error{% endif %}">
+          <label for="f-segment">Logistics segment <span class="req" aria-hidden="true">*</span></label>
+          <select id="f-segment" name="segment" required {% if errors.get('segment') %}aria-invalid="true" aria-describedby="e-segment"{% endif %}>
+            <option value="">Choose one…</option>
+            {% for v, l in segments %}<option value="{{ v }}" {% if data.get('segment') == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+          </select>
+          {% if errors.get('segment') %}<p class="error" id="e-segment">{{ errors['segment'] }}</p>{% endif %}
+        </div>
+        {{ field("geography", "Main target geography", errors, data, placeholder="e.g. Maharashtra, Mumbai–Pune, India–UAE") }}
+      </div>
+      <div class="field{% if errors.get('objective') %} has-error{% endif %}">
+        <label for="f-objective">Main business objective</label>
+        <select id="f-objective" name="objective">
+          <option value="">Choose one…</option>
+          {% for v, l in objectives %}<option value="{{ v }}" {% if data.get('objective') == v %}selected{% endif %}>{{ l }}</option>{% endfor %}
+        </select>
+        {% if errors.get('objective') %}<p class="error">{{ errors['objective'] }}</p>{% endif %}
+      </div>
+      <div class="field">
+        <label for="f-message">Anything else we should know?</label>
+        <textarea id="f-message" name="message" maxlength="2000">{{ data.get('message', '') }}</textarea>
+      </div>
+      <div class="field{% if errors.get('consent') %} has-error{% endif %}">
+        <label class="check"><input type="checkbox" name="consent" value="yes" {% if data.get('consent') %}checked{% endif %} required
+          {% if errors.get('consent') %}aria-invalid="true" aria-describedby="e-consent"{% endif %}>
+          <span>I agree that RADYNTA may contact me about this request and store these details as described in the <a href="{{ url_for('site.privacy') }}">Privacy Policy</a>. <span class="req" aria-hidden="true">*</span></span></label>
+        {% if errors.get('consent') %}<p class="error" id="e-consent">{{ errors['consent'] }}</p>{% endif %}
+      </div>
+      <div><button class="btn btn-primary" type="submit">Request my audit</button></div>
+    </form>
+    <aside class="sticky">
+      <div class="card">
+        <h3>What happens next</h3>
+        <ol class="small">
+          <li>We review your website and segment.</li>
+          <li>We reply to agree the buyer questions, platforms and competitors.</li>
+          <li>You receive the report and a walkthrough call.</li>
+        </ol>
+        <p class="small muted mb-0">Launch Audit: ₹7,500–₹9,999 one-time, confirmed before any work starts. <a href="{{ url_for('site.services') }}#pricing">See what’s included</a>.</p>
+      </div>
+    </aside>
+  </div>
+</section>
+{% endblock %}

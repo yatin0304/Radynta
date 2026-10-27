@@ -1,0 +1,34 @@
+{% extends "monitor/base.html" %}
+{% block title %}Enquiries{% endblock %}
+{% block content %}
+<div class="header-row">
+  <h1>Enquiries</h1>
+  <div class="inline-form small">Filter:
+    {% for s in ['', 'new', 'contacted', 'qualified', 'closed', 'spam'] %}<a href="{{ url_for('monitor.enquiries', status=s or None) }}">{{ s or 'all' }}</a>{% endfor %}
+  </div>
+</div>
+{% if not email_configured %}<p class="notice small">Email notifications are not configured, so no one is alerted when an enquiry arrives. Check this page regularly, or set SMTP_* variables in .env.</p>{% endif %}
+{% if not items %}<p class="muted">No enquiries{% if status %} with status “{{ status }}”{% endif %}.</p>{% endif %}
+<div class="stack">
+{% for e in items %}
+  <div class="card">
+    <div class="header-row">
+      <div><strong>{{ e.company or e.name }}</strong> <span class="tag">{{ e.kind }}</span> <span class="tag {{ 'tag-accent' if e.status == 'new' else '' }}">{{ e.status }}</span></div>
+      <span class="small muted mono">#{{ e.id }} · {{ e.created_at }} UTC</span>
+    </div>
+    <dl class="small">
+      <div>{{ e.name }}{% if e.email %} · <a href="mailto:{{ e.email }}">{{ e.email }}</a>{% endif %}{% if e.phone %} · <a href="tel:{{ e.phone|replace(' ', '') }}">{{ e.phone }}</a>{% endif %}</div>
+      {% if e.website %}<div>Website: {{ e.website }}</div>{% endif %}
+      {% if e.segment %}<div>Segment: {{ e.segment }} · Geography: {{ e.geography or '—' }} · Objective: {{ e.objective or '—' }}</div>{% endif %}
+      {% if e.message %}<div class="response-text">{{ e.message }}</div>{% endif %}
+    </dl>
+    <form class="inline-form" method="post" action="{{ url_for('monitor.enquiry_update', eid=e.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <select name="status" aria-label="Status">{% for s in ['new', 'contacted', 'qualified', 'closed', 'spam'] %}<option {% if e.status == s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select>
+      <input name="internal_notes" value="{{ e.internal_notes or '' }}" placeholder="Internal notes / next action" aria-label="Internal notes" size="40">
+      <button class="btn btn-secondary btn-sm" type="submit">Save</button>
+    </form>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

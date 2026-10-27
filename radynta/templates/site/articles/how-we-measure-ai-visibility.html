@@ -1,0 +1,37 @@
+{% extends "site/article_base.html" %}
+{% block body %}
+<p>“AI visibility” gets used loosely. Here is exactly what we measure, how, and what the numbers do and don’t tell you.</p>
+
+<h2>1. Start from buyer questions, not keywords</h2>
+<p>We build a question library for each client with them, organised by service, geography and customer type. A transporter in Pune might have questions like “Which transporters provide part-load services from Pune to Bengaluru?” and “Who has 32 ft containers for auto components in Chakan?”. The questions are fixed before any test, so results can be compared month to month.</p>
+
+<h2>2. Collect answers in a documented way</h2>
+<p>For each platform we record how the answer was collected:</p>
+<ul>
+  <li><strong>API collection</strong> — for platforms with an official API suited to the purpose (for example, Perplexity’s Sonar API, which returns source URLs). API answers can differ from what a signed-in user sees in the consumer app, so we label them clearly.</li>
+  <li><strong>Manual capture</strong> — for consumer apps such as ChatGPT, Gemini or Google’s AI features, an analyst asks the question in a clean session and records the full answer and its sources. We don’t scrape these apps.</li>
+</ul>
+<p>Every answer is stored verbatim with the platform, model (when known), date and market context.</p>
+
+<h2>3. Separate mentions from citations</h2>
+<p>These are different outcomes and we report them separately:</p>
+<ul>
+  <li><strong>Brand mention</strong> — your company name (or an agreed alias) appears in the answer text.</li>
+  <li><strong>Citation</strong> — your website is listed as a source, either by the platform or as a link in the answer.</li>
+</ul>
+<p>A business can be mentioned without being cited (the AI learned about you from a directory), or cited without being named. Short or generic names (“Prime Logistics”) are flagged as ambiguous for human review rather than counted automatically.</p>
+
+<h2>4. Use honest denominators</h2>
+<p>Requests sometimes fail: timeouts, rate limits, refusals. A failed request tells us nothing about your visibility, so it is reported as a failure and excluded from rates. A mention rate of “4 of 15” means 4 mentions in 15 valid answers — not 4 in 20 attempts with 5 failures quietly counted as misses.</p>
+
+<h2>5. Report what we couldn’t measure</h2>
+<p>Our audit score is RADYNTA’s internal framework, not an official score from any search engine or AI company. If a dimension couldn’t be measured — for example, no platform was accessible for a market — it is shown as “not measured” and excluded from the total, rather than scored as zero.</p>
+
+<h2>Limitations worth knowing</h2>
+<ul>
+  <li>AI answers vary between runs, accounts, locations and over time. A single test is a sample, not a verdict.</li>
+  <li>Sample sizes in small audits are small. We show them next to every rate.</li>
+  <li>Improvements to your website may take weeks or months to be reflected, and some platforms may never reflect them.</li>
+</ul>
+<p>Measurement doesn’t make you visible by itself. It tells you where you stand and whether the work is moving the needle.</p>
+{% endblock %}

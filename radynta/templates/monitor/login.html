@@ -1,0 +1,17 @@
+{% extends "monitor/base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block content %}
+<div class="card login-card">
+  <h1>Sign in</h1>
+  {% if not has_users %}
+  <div class="notice">No users exist yet. Create one from the command line:<br><code>flask --app radynta create-user you@radynta.com</code></div>
+  {% endif %}
+  {% if error %}<div class="notice notice-bad" role="alert">{{ error }}</div>{% endif %}
+  <form class="form mt-5" method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="username" required></div>
+    <div class="field"><label for="f-pw">Password</label><input id="f-pw" name="password" type="password" autocomplete="current-password" required></div>
+    <button class="btn btn-ink" type="submit">Sign in</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+<section class="band-ink tight">
+  <div class="wrap">
+    <div class="grid grid-2 align-center">
+      <div>
+        <h2>{{ cta_title|default("See how buyers find you today") }}</h2>
+        <p>{{ cta_text|default("Request a Logistics Visibility Audit. We’ll test the questions your buyers ask, review your website, and send a prioritised action plan — with the evidence behind every finding.") }}</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="{{ url_for('site.audit_request') }}">Request a Logistics Visibility Audit</a>
+        <a class="btn btn-on-ink" href="{{ url_for('site.contact') }}">Ask a question</a>
+      </div>
+    </div>
+  </div>
+</section>
